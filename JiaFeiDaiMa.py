@@ -43,7 +43,7 @@ ignore_file_list = ['main.m']
 ignore_folder_list = []
 
 # 创建垃圾函数数量范围
-create_func_min = 2
+create_func_min = 5
 create_func_max = 10
 
 # 创建垃圾文件数量范围
@@ -74,10 +74,10 @@ def getOneName():
 # oc代码头文件函数声明
 def getOCHeaderFuncText():
     global funcname_set
-    funcName = getOneName()
+    funcName = getOneName() + getOneName()
     # 防止出现重复的函数
     while funcName in funcname_set:
-        funcName = getOneName()
+        funcName = getOneName() + getOneName()
     funcname_set.add(funcName)
 
     text = "\n- (void)%s" % funcName
@@ -86,7 +86,7 @@ def getOCHeaderFuncText():
 
 # oc代码函数实现模板
 def getOCFuncText(header_text):
-    arg1 = getOneName()
+    arg1 = getOneName() + getOneName() + getOneName()
     text = [
         header_text + "\n",
         "{\n"
@@ -261,6 +261,7 @@ def main():
     print '\n开始添加oc方法'
     addOCFunctions(target_ios_folder)
 
+    # 如果要替换，则先备份
     if app_args.replace_ios:
         print '\n用target_ios替换目录'
         # os.path.abspath(path)	返回绝对路径
@@ -285,8 +286,8 @@ def main():
     else:
         print '垃圾代码生成完成，垃圾代码目录：' + os.path.abspath(target_ios_folder)
 
-
     print '\nfinished'
+
 
 if __name__ == '__main__':
     main()
