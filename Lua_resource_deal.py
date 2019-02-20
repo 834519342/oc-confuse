@@ -66,7 +66,7 @@ def get_one_name():
     global word_name_list
     return random.choice(word_name_list)
 
-
+# ----------------------- 创建lua垃圾代码，创建垃圾图片数据 -------------------------
 # 获取lua垃圾方法
 def get_lua_func_text():
     global funcnames
@@ -94,6 +94,7 @@ def get_png_text():
     return text
 
 
+# ---------------------- 遍历指定目录，添加lua垃圾文件或png垃圾路片 ---------------------
 # 添加单个垃圾文件(lua文件和png文件)
 def add_single_file(file_path):
     global target_path
@@ -162,9 +163,9 @@ def add_file_to(parent_folder, level, min_file_num=0):
             add_file_to(folder_path, level + 1, random.randint(2, 5))
         except Exception as e:
             print e
-# --------------------------- end ---------------------------------
 
 
+# -------------------------- 遍历指定的目录，修改文件资源的md5值 --------------------------
 # 改md5值
 def change_singleFile_MD5(file_path):
     _, file_type = os.path.splitext(file_path)
@@ -195,7 +196,6 @@ def change_folder_MD5(target_path):
                 change_singleFile_MD5(full_path)
 
 
-# --------------------------- main ----------------------------------
 # 解析命令行参数
 def parse_args():
     parser = argparse.ArgumentParser(description='资源变异工具')
@@ -205,6 +205,7 @@ def parse_args():
     return args
 
 
+# --------------------- 代码执行逻辑 ------------------------
 def main():
     global resource_path, target_path
     # 获取命令行参数

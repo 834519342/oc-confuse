@@ -70,7 +70,7 @@ def getOneName():
     # choice() 方法返回一个列表，元组或字符串的随机项。
     return random.choice(word_name_list)
 
-
+# ------------------ 创建一个垃圾函数的声明与实现的模板 ------------------
 # oc代码头文件函数声明
 def getOCHeaderFuncText():
     global funcname_set
@@ -97,6 +97,7 @@ def getOCFuncText(header_text):
     return ''.join(text)
 
 
+# ------------------ 扫描指定目录，在.h和.m文件中添加垃圾函数 ------------------
 # oc代码以@end结尾，在其前面添加text
 def appendTextToOCFile(file_path, text):
     with open(file_path, 'r') as fileObj:
@@ -112,9 +113,10 @@ def appendTextToOCFile(file_path, text):
         new_text = new_text + text + "\n"
         new_text = new_text + old_text[end_mark_index:]
 
-        # 写入新的文件
+        # 写入文件
         with open(file_path, "w") as fileObj:
             fileObj.write(new_text)
+            fileObj.close()
 
 
 # 处理单个OC文件，添加垃圾函数。确保其对应头文件存在于相同目录，参数传入.m文件的名字和路径
@@ -165,9 +167,8 @@ def addOCFunctions(parent_folder):
                     continue
                 dealWithOCFile(file, os.path.join(parent, file))
 
-# addOCFunctions('.')
 
-
+# --------------------------- 创建垃圾类文件的代码模板 --------------------------------
 # 创建垃圾文件header模板
 def getOCHeaderFileText(class_name):
     global funcname_set
@@ -197,6 +198,7 @@ def getOCMMFileText(class_name):
     return ''.join(text)
 
 
+# ---------------------- 在指定目录下创建垃圾类文件 -----------------------
 # 添加垃圾文件到parent_folder/trash/
 def addOCFile(parent_folder):
     global create_file_min, create_file_max
@@ -243,6 +245,7 @@ def parse_args():
     return args
 
 
+# ------------------------------- 脚本执行逻辑 -----------------------------
 def main():
     app_args = parse_args()
     global ios_src_path, backup_ios_folder, target_ios_folder
