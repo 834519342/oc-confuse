@@ -26,6 +26,7 @@ import random
 import string
 import argparse  # 命令行解析模块
 import shutil
+import time
 import sys
 
 # 编码格式，默认值：ascii，设置默认值为：utf-8
@@ -70,13 +71,12 @@ def get_one_name():
 # 获取lua垃圾方法
 def get_lua_func_text():
     global funcnames
-
     new_func_name = get_one_name()
     while new_func_name in funcnames:
         new_func_name = get_one_name()
     funcnames.add(new_func_name)
 
-    argv_name = get_one_name()
+    argv_name = get_one_name() + get_one_name()
     text = [
         '\nlocal function ' + new_func_name + '()\n',
         '\tlocal %s = %d + %d\n' % (argv_name, random.randint(1, 1000), random.randint(1, 1000)),
@@ -97,13 +97,16 @@ def get_png_text():
 # ---------------------- 遍历指定目录，添加lua垃圾文件或png垃圾路片 ---------------------
 # 添加单个垃圾文件(lua文件和png文件)
 def add_single_file(file_path):
-    global target_path
+    global target_path, funcnames
+    # 只缓存单个文件的方法名
+    funcnames.clear()
+
     print 'add file：' + file_path.replace(target_path, '')
     # os.path.splitext(path) 分割路径，返回路径名和文件扩展名的元组
     (_, file_type) = os.path.splitext(file_path)
     if file_type == '.lua':
         with open(file_path, 'w') as fileObj:
-            func_num = random.randint(2, 5)
+            func_num = random.randint(10, 15)
             for j in range(0, func_num):
                 func_text = get_lua_func_text()
                 fileObj.write(func_text)
@@ -118,7 +121,7 @@ def add_single_file(file_path):
 
 def add_file_to(parent_folder, level, min_file_num=0):
     global match_rule, target_path
-
+    
     create_folder_list = []
     for parent, folders, files in os.walk(parent_folder):
         target_file_type = ''
@@ -144,6 +147,8 @@ def add_file_to(parent_folder, level, min_file_num=0):
         for i in range(0, new_file_num):
             file_path = os.path.join(parent, get_one_name() + target_file_type)
             add_single_file(file_path)
+            # 延迟操作,防止操作太快出错
+            time.sleep(0.001)
 
         # 防止创建太多层的文件夹
         if level > 2:
