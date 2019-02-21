@@ -171,17 +171,11 @@ def addOCFunctions(parent_folder):
 # --------------------------- 创建垃圾类文件的代码模板 --------------------------------
 # 创建垃圾文件header模板
 def getOCHeaderFileText(class_name):
-    global funcname_set
-    new_func_name = getOneName()
-    while new_func_name in funcname_set:
-        new_func_name = getOneName()
-    funcname_set.add(new_func_name)
-
     text = [
         "#import <UIKit/UIKit.h>\n",
         "#import <Foundation/Foundation.h>\n\n",
         "@interface %s : NSObject {\n" % class_name,
-        "\tint %s;\n" % new_func_name,
+        "\tint %s;\n" % getOneName(),
         "\tfloat %s;\n" % getOneName(),
         "}\n\n@end"
     ]
@@ -212,6 +206,10 @@ def addOCFile(parent_folder):
     file_num = random.randint(create_file_min, create_file_max)
     for i in range(file_num):
         file_name = getOneName()
+        # 避免出现重复的文件名
+        while "#import \"" + file_name + ".h\"" in file_list:
+            file_name = getOneName()
+
         # 引用每一个创建的类
         file_list.append("#import \"" + file_name + ".h\"")
 
