@@ -2,19 +2,19 @@
 
 1.OC_JiaFeiDaiMa
 
-  -oc_folder OC_FOLDER  OC_FOLDER为OC代码所在目录
+  -path OC_FOLDER  OC_FOLDER为OC代码所在目录
 
   -replace  替换OC_FOLDER下的原文件，同时原代码会备份到脚本目录下的backup_ios目录。不指定此项垃圾代码只会放到脚本目录下的target_ios/
 
-  用法：$ ./addNativeCode.py -oc_folder /Users/xiaoqq/Desktop/001/001  -replace
+  用法：$ ./addNativeCode.py -path /Users/xiaoqq/Desktop/001/001  -replace
 
 2.Lua_resource_deal
 
-  -res RES_DIR  RES_DIR 需要处理的资源目录
+  -path RES_DIR  RES_DIR 需要处理的资源目录
 
-  -target TARGET_DIR  资源导出目录，不设置则使用默认目录target_resource
+  -out_path TARGET_DIR  资源导出目录，不设置则使用默认目录target_resource
 
-  用法：/Users/xiaoqq/Desktop/GitHub/oc-deal/Lua_resource_deal -res /Users/xiaoqq/Desktop/001
+  用法：/Users/xiaoqq/Desktop/GitHub/oc-deal/Lua_resource_deal -path /Users/xiaoqq/Desktop/001
 
 3.JunkFileMaker
 

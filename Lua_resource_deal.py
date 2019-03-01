@@ -204,8 +204,8 @@ def change_folder_MD5(target_path):
 # 解析命令行参数
 def parse_args():
     parser = argparse.ArgumentParser(description='资源变异工具')
-    parser.add_argument('-res', dest='res_dir', type=str, required=True, help='资源目录')
-    parser.add_argument('-target', dest='target_dir', type=str, required=False, default=target_path, help='资源导出目录')
+    parser.add_argument('-path', dest='res_dir', type=str, required=True, help='资源目录')
+    parser.add_argument('-out_path', dest='target_dir', type=str, required=False, default=target_path, help='资源导出目录')
     args = parser.parse_args()
     return args
 

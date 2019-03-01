@@ -236,7 +236,7 @@ def addOCFile(parent_folder):
 # 命令行参数解析
 def parse_args():
     parser = argparse.ArgumentParser(description='oc垃圾代码生成工具.')
-    parser.add_argument('-oc_folder', dest='oc_folder', type=str, required=True, help='OC代码所在目录')
+    parser.add_argument('-path', dest='oc_path', type=str, required=True, help='OC代码所在目录')
     parser.add_argument('-replace', dest='replace_ios', required=False, help='直接替换oc源代码', action='store_true')
 
     args = parser.parse_args()
@@ -247,7 +247,7 @@ def parse_args():
 def main():
     app_args = parse_args()
     global ios_src_path, backup_ios_folder, target_ios_folder
-    ios_src_path = app_args.oc_folder
+    ios_src_path = app_args.oc_path
     if not os.path.exists(ios_src_path):
         print 'oc_folder path not exist'
         exit(0)
