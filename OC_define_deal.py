@@ -25,18 +25,34 @@ import shutil
 import argparse
 import re
 
+# ----------------------------------- 官包SDK ---------------------------------------
+# # 文件夹白名单
+# path_ignore = ('Masonry')
+# # 文件白名单
+# file_ignore = ('MBProgressHUD', 'main', 'AppDelegate')
+# # 类名白名单
+# class_ignore = ()
+# # 方法名白名单
+# func_ignore = ('viewDidLoad', 'init', 'didReceiveMemoryWarning', 'valueForKey', 'viewWillAppear', 'dealloc','requestDidFinish',
+#                'viewWillLayoutSubviews', 'initWithX', 'safariViewController', 'safariViewControllerDidFinish', 'completedTransactionsFinished',
+#                'initWithNibName', 'viewWillDisappear', 'tableView', 'numberOfSectionsInTableView', 'paymentQueue', 'productsRequest', 'request')
+# # 属性名白名单
+# variable_ignore = ('window', 'type')
+
+# -------------------------------- V8SDK ------------------------------------
 # 文件夹白名单
-path_ignore = ('Masonry')
+path_ignore = ()
 # 文件白名单
-file_ignore = ('MBProgressHUD', 'main', 'AppDelegate')
+file_ignore = ()
 # 类名白名单
 class_ignore = ()
 # 方法名白名单
-func_ignore = ('viewDidLoad', 'init', 'didReceiveMemoryWarning', 'valueForKey', 'viewWillAppear', 'dealloc','requestDidFinish',
-               'viewWillLayoutSubviews', 'initWithX', 'safariViewController', 'safariViewControllerDidFinish', 'completedTransactionsFinished',
-               'initWithNibName', 'viewWillDisappear', 'tableView', 'numberOfSectionsInTableView', 'paymentQueue', 'productsRequest', 'request')
+func_ignore = ('init', 'valueForKey', 'setValue', 'view', 'initWithResult', 'initWithDict', 'initWithDictionary', 'title',
+               'valueForUndefinedKey', 'main', 'application', 'applicationWillResignActive', 'applicationDidEnterBackground',
+               'applicationWillEnterForeground', 'applicationDidBecomeActive', 'applicationWillTerminate', 'GetView', 'viewController',
+               'url', 'GetViewController')
 # 属性名白名单
-variable_ignore = ('window', 'type')
+variable_ignore = ('name', 'error', 'title', 'viewController', 'url')
 
 
 # 设置默认编码格式
@@ -49,7 +65,7 @@ if sys.getdefaultencoding() != default_encoding:
 script_path = os.path.split(os.path.realpath(sys.argv[0]))[0]
 
 # 资源输出路径
-define_header_path = os.path.join(script_path, 'define_header')
+define_header_path = os.path.join(script_path, 'OC_define')
 
 # 保证唯一性
 classNames = set()
@@ -246,7 +262,7 @@ if __name__ == '__main__':
     # 获取参数
     args = parse_args()
     # 创建一个头文件名字
-    headerName = 'Tflippancy.h'
+    headerName = get_one_name() + '.h'
 
     # 扫描需要处理的类名
     scan_folder_class(args.path)

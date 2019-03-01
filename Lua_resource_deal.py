@@ -40,7 +40,7 @@ script_path = os.path.split(os.path.realpath(sys.argv[0]))[0]
 # 资源路径
 resource_path = ''
 # 目标路径
-target_path = os.path.join(script_path, 'target_resource')
+target_path = os.path.join(script_path, 'Lua_resource')
 
 # os.path.sep 系统的路径分隔符 /
 # 匹配规则，路径包含path_include，路径不包含path_exclude
@@ -205,7 +205,7 @@ def change_folder_MD5(target_path):
 def parse_args():
     parser = argparse.ArgumentParser(description='资源变异工具')
     parser.add_argument('-path', dest='res_dir', type=str, required=True, help='资源目录')
-    parser.add_argument('-out_path', dest='target_dir', type=str, required=False, default=target_path, help='资源导出目录')
+    parser.add_argument('-out_path', dest='out_path', type=str, required=False, default=target_path, help='资源导出目录')
     args = parser.parse_args()
     return args
 
@@ -216,7 +216,7 @@ def main():
     # 获取命令行参数
     app_args = parse_args()
     resource_path = app_args.res_dir
-    target_path = app_args.target_dir
+    target_path = app_args.out_path
 
     # 判断路径是否存在
     if not os.path.exists(resource_path):

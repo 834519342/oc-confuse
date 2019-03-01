@@ -33,9 +33,9 @@ sys.setdefaultencoding('utf-8')
 script_path = os.path.split(os.path.realpath(sys.argv[0]))[0]
 
 # 垃圾代码临时存放目录
-target_ios_folder = os.path.join(script_path, "./target_ios")
+target_ios_folder = os.path.join(script_path, "./OC_JiaFeiDaiMa")
 # 源文件备份目录
-backup_ios_folder = os.path.join(script_path, "./backup_ios")
+backup_ios_folder = os.path.join(script_path, "./OC_JiaFeiDaiMa_backup")
 
 # 忽略文件列表
 ignore_file_list = ['main.m']
@@ -236,8 +236,8 @@ def addOCFile(parent_folder):
 # 命令行参数解析
 def parse_args():
     parser = argparse.ArgumentParser(description='oc垃圾代码生成工具.')
-    parser.add_argument('-path', dest='oc_path', type=str, required=True, help='OC代码所在目录')
-    parser.add_argument('-replace', dest='replace_ios', required=False, help='直接替换oc源代码', action='store_true')
+    parser.add_argument('-path', dest='path', type=str, required=True, help='OC代码所在目录')
+    parser.add_argument('-replace', dest='replace', required=False, help='直接替换oc源代码', action='store_true')
 
     args = parser.parse_args()
     return args
@@ -247,7 +247,7 @@ def parse_args():
 def main():
     app_args = parse_args()
     global ios_src_path, backup_ios_folder, target_ios_folder
-    ios_src_path = app_args.oc_path
+    ios_src_path = app_args.path
     if not os.path.exists(ios_src_path):
         print 'oc_folder path not exist'
         exit(0)
@@ -263,7 +263,7 @@ def main():
     addOCFunctions(target_ios_folder)
 
     # 如果要替换，则先备份
-    if app_args.replace_ios:
+    if app_args.replace:
         print '\n用target_ios替换目录'
         # os.path.abspath(path)	返回绝对路径
         print '\t备份OC代码到' + os.path.abspath(backup_ios_folder)

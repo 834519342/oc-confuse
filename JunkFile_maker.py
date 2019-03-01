@@ -50,7 +50,7 @@ folderNames = set()
 script_path = os.path.split(os.path.realpath(sys.argv[0]))[0]
 
 # 垃圾资源存放文件夹
-junkFiles_path = os.path.join(script_path, 'junkFiles')
+junkFiles_path = os.path.join(script_path, 'JunkFiles')
 
 # 获取单词库，用来命名
 with open(os.path.join(script_path, 'word_list.json'), 'r') as fileObjc:
@@ -103,7 +103,7 @@ def add_file_to_folder(folder_path):
         fileNames.add(fileName)
         ftype = get_type()
         fileName = fileName + ftype
-        # print '创建文件：' + fileName
+        print '创建文件：' + fileName
         get_one_file(os.path.join(folder_path, fileName), ftype)
 
 

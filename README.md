@@ -1,21 +1,28 @@
 # oc-deal
 
-1.OC_JiaFeiDaiMa
+1.OC_JiaFeiDaiMa_deal     在OC代码中加废方法，创建废类
 
-  -path OC_FOLDER  OC_FOLDER为OC代码所在目录
+	-path PATH  OC代码所在目录
+	-replace    直接替换oc源代码,会在脚本所在目录创建OC_JiaFeiDaiMa_backup文件夹备份源文件
 
-  -replace  替换OC_FOLDER下的原文件，同时原代码会备份到脚本目录下的backup_ios目录。不指定此项垃圾代码只会放到脚本目录下的target_ios/
+  	用法：$ ./OC_JiaFeiDaiMa_deal -path 路径 -replace
 
-  用法：$ ./addNativeCode.py -path /Users/xiaoqq/Desktop/001/001  -replace
 
-2.Lua_resource_deal
+2.Lua_resource_deal    在资源目录添加垃圾资源，修改所有文件的md5值
 
-  -path RES_DIR  RES_DIR 需要处理的资源目录
+  	-path RES_DIR       资源目录
+  	-out_path OUT_PATH  资源导出目录,默认导出到Lua_resource
 
-  -out_path TARGET_DIR  资源导出目录，不设置则使用默认目录target_resource
+  	用法：./Lua_resource_deal -path 路径
 
-  用法：/Users/xiaoqq/Desktop/GitHub/oc-deal/Lua_resource_deal -path /Users/xiaoqq/Desktop/001
 
-3.JunkFileMaker
+3.JunkFileMaker    垃圾文件生成器
 
-  用法：直接运行，会在脚本当前目录生成一个junkFiles文件夹
+  	用法：直接运行，会在脚本当前目录生成一个JunkFiles文件夹
+
+
+4.OC_define_deal    扫描OC文件的类、方法、属性，用宏定义的方式混淆成随机命名，报错的地方需要添加白名单
+	
+	-path PATH  扫描目录
+
+	用法：$ ./OC_define_deal -path 路径
