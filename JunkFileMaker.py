@@ -33,11 +33,11 @@ fileTypes = ('.png', '.jpg', '.txt', '.json')
 
 # 文件数范围
 fileNumMin = 10
-fileNumMax = 20
+fileNumMax = 15
 
 # 文件夹数范围
-folderNumMin = 3
-folderNumMax = 5
+folderNumMin = 5
+folderNumMax = 8
 
 # 文件夹级数
 folderLevel = 5
@@ -73,16 +73,19 @@ def get_type():
 
 
 # 创建垃圾文件内容
-def get_junkData():
-    ranStr = ''.join(random.sample(string.ascii_letters + string.digits, 62))
-    dataStr = ranStr * random.randint(256, 512)
-    return base64.b64encode(dataStr.encode())
+def get_junkData(ftype=''):
+    text = ''.join(random.sample(string.ascii_letters + string.digits, 62))
+    text = text * random.randint(256, 512)
+    if ftype == '.png':
+        png_text = text + '0000000049454e44ae426082'.decode('hex')
+        return png_text
+    return text
 
 
 # 创建单个垃圾文件
-def get_one_file(file_path):
+def get_one_file(file_path, ftype=''):
     with open(file_path, 'w') as fileObjc:
-        fileObjc.write(get_junkData())
+        fileObjc.write(get_junkData(ftype))
         fileObjc.close()
 
 
@@ -90,7 +93,7 @@ def get_one_file(file_path):
 def add_file_to_folder(folder_path):
     global fileNames
     fileNames.clear()
-    print '创建路径：' + folder_path
+
     # 开始添加文件
     for i in range(random.randint(fileNumMin, fileNumMax)):
         # 获取一个不重复的名字
@@ -98,9 +101,10 @@ def add_file_to_folder(folder_path):
         while fileName in fileNames:
             fileName = get_one_name()
         fileNames.add(fileName)
-        fileName = fileName + get_type()
-        print '创建文件：' + fileName
-        get_one_file(os.path.join(folder_path, fileName))
+        ftype = get_type()
+        fileName = fileName + ftype
+        # print '创建文件：' + fileName
+        get_one_file(os.path.join(folder_path, fileName), ftype)
 
 
 # 创建多级文件夹目录
@@ -112,6 +116,7 @@ def add_folders_level(parent_path, level=0):
             while folderName in folderNames:
                 folderName = get_one_name()
             folderNames.add(folderName)
+            # print '创建路径：' + os.path.join(parent_path, folderName)
             os.mkdir(os.path.join(parent_path, folderName))
             # 回溯 创建分级目录
             add_folders_level(os.path.join(parent_path, folderName), level - random.randint(1, 4))
@@ -131,7 +136,10 @@ if __name__ == '__main__':
 
     # 添加垃圾资源文件
     for parent, folders, files in os.walk(junkFiles_path):
-        add_file_to_folder(os.path.join(parent))
+        for folder in folders:
+            if os.path.isdir(os.path.join(parent, folder)):
+                print '添加路径：' + os.path.join(parent, folder)
+                add_file_to_folder(os.path.join(parent, folder))
 
     print '------ success!------'
 
