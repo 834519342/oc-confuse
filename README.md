@@ -16,7 +16,7 @@
   	用法：./Lua_resource_deal -path 路径
 
 
-3.JunkFileMaker    垃圾文件生成器
+3.JunkFile_maker    垃圾文件生成器
 
   	用法：直接运行，会在脚本当前目录生成一个JunkFiles文件夹
 
