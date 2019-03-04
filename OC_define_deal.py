@@ -25,34 +25,63 @@ import shutil
 import argparse
 import re
 
-# ----------------------------------- 官包SDK ---------------------------------------
-# # 文件夹白名单
-# path_ignore = ('Masonry')
+# ----------------------------------- 系统白名单 -------------------------------------
 # # 文件白名单
-# file_ignore = ('MBProgressHUD', 'main', 'AppDelegate')
+system_file = ('main', 'AppDelegate')
+# 类名白名单
+system_class = ('NS', )
+# 属性名白名单
+system_variable = ('window', 'price', 'string')
+# 方法名白名单
+system_func = ('main', 'application', 'applicationWillResignActive', 'applicationDidEnterBackground',
+               'applicationWillEnterForeground', 'applicationDidBecomeActive', 'applicationWillTerminate', 'view',
+               'init', 'viewDidLoad', 'viewWillAppear', 'viewWillDisappear', 'didReceiveMemoryWarning',
+               'viewWillLayoutSubviews', 'dealloc', 'valueForKey', 'setValue', 'requestDidFinish',
+               'safariViewController', 'safariViewControllerDidFinish', 'tableView', 'numberOfSectionsInTableView',
+               'paymentQueue', 'productsRequest', 'request', 'initWithNibName', 'mailComposeController')
+
+# ----------------------------------- 官包SDK ---------------------------------------
+# 文件夹白名单
+# path_ignore = ('Masonry', )
+# # 文件白名单
+# file_ignore = ('MBProgressHUD', )
 # # 类名白名单
 # class_ignore = ()
-# # 方法名白名单
-# func_ignore = ('viewDidLoad', 'init', 'didReceiveMemoryWarning', 'valueForKey', 'viewWillAppear', 'dealloc','requestDidFinish',
-#                'viewWillLayoutSubviews', 'initWithX', 'safariViewController', 'safariViewControllerDidFinish', 'completedTransactionsFinished',
-#                'initWithNibName', 'viewWillDisappear', 'tableView', 'numberOfSectionsInTableView', 'paymentQueue', 'productsRequest', 'request')
 # # 属性名白名单
-# variable_ignore = ('window', 'type')
+# variable_ignore = ('type', 'productId', 'price', 'roleID', 'roleName', 'serverID', 'serverName', 'productName',
+#                    'productDesc', 'extension', 'orderID', 'serverId', 'roleId', )
+# # 方法名白名单
+# func_ignore = ('initWithX', 'completedTransactionsFinished', 'currentSDKVersion')
 
 # -------------------------------- V8SDK ------------------------------------
 # 文件夹白名单
-path_ignore = ()
+# path_ignore = ()
+# # 文件白名单
+# file_ignore = ()
+# # 类名白名单
+# class_ignore = ()
+# # 属性名白名单
+# variable_ignore = ('name', 'error', 'title', 'viewController', 'url', 'productId', 'price', 'roleID', 'roleName',
+#                    'serverID', 'serverName', 'productName', 'productDesc', 'extension', 'orderID', 'serverId', 'roleId',
+#                    'resultCount', )
+# # 方法名白名单
+# func_ignore = ('initWithResult', 'initWithDict', 'initWithDictionary', 'title', 'valueForUndefinedKey', 'GetView',
+#                'viewController', 'url', 'GetViewController', )
+
+# -------------------------------- 官包SDK + V8SDK ---------------------------
+# 文件夹白名单
+path_ignore = ('Masonry', )
 # 文件白名单
-file_ignore = ()
+file_ignore = ('MBProgressHUD', )
 # 类名白名单
 class_ignore = ()
-# 方法名白名单
-func_ignore = ('init', 'valueForKey', 'setValue', 'view', 'initWithResult', 'initWithDict', 'initWithDictionary', 'title',
-               'valueForUndefinedKey', 'main', 'application', 'applicationWillResignActive', 'applicationDidEnterBackground',
-               'applicationWillEnterForeground', 'applicationDidBecomeActive', 'applicationWillTerminate', 'GetView', 'viewController',
-               'url', 'GetViewController')
 # 属性名白名单
-variable_ignore = ('name', 'error', 'title', 'viewController', 'url')
+variable_ignore = ('name', 'error', 'title', 'viewController', 'url', 'resultCount', 'type')
+# 方法名白名单
+func_ignore = ('initWithResult', 'initWithDict', 'initWithDictionary', 'title', 'valueForUndefinedKey', 'GetView',
+               'viewController', 'url', 'GetViewController', 'initWithX', 'completedTransactionsFinished',
+               'currentSDKVersion')
+
 
 
 # 设置默认编码格式
@@ -71,13 +100,16 @@ define_header_path = os.path.join(script_path, 'OC_define')
 classNames = set()
 funcNames = set()
 variableNames = set()
-defineNames = set()
 names = set()
+defineNames = set()
+
 
 # 正则表达式
 classPattern = re.compile('@interface\s+(\w+)\s+:\s+\w+')
+
 funcPattern = re.compile('\s*-\s*\(.+?\)\s*(\w+)')
 funcPattern1 = re.compile('\s*(\w+):\(.+?\)\s*\w+')
+
 variablePattern = re.compile('@property\s*\(.*?\)\s*\w+\s*\*?\s*(\w+?);')
 variablePattern1 = re.compile('\s*\w+\s*\*\s*(\w+);')
 
@@ -124,9 +156,33 @@ def is_path_ignore(parent_path=''):
 
 # 判断文件名
 def is_file_ignore(file_name=''):
-    global file_ignore
-    if file_name in file_ignore:
+    global file_ignore, system_file
+    if file_name in file_ignore or file_name in system_file:
         print '忽略的文件：' + file_name
+        return True
+    return False
+
+
+# 判断类名
+def is_class_ignore(class_name=''):
+    global class_ignore, system_class, classNames
+    if class_name in class_ignore or class_name in system_class or class_name in classNames:
+        return True
+    return False
+
+
+# 判断属性名
+def is_variable_ignore(variable_name=''):
+    global variable_ignore, system_variable, variableNames
+    if variable_name in variable_ignore or variable_name in system_variable or variable_name in variableNames:
+        return True
+    return False
+
+
+# 判断方法名
+def is_func_ignore(func_name=''):
+    global func_ignore, system_func, funcNames
+    if func_name in func_ignore or func_name in system_func or func_name in funcNames:
         return True
     return False
 
@@ -134,7 +190,7 @@ def is_file_ignore(file_name=''):
 # ------------------------ 扫描类名 -----------------------------
 # 扫描指定目录的类名
 def scan_folder_class(parent_path):
-    global classNames, class_ignore, classPattern
+    global classNames, class_ignore, system_class, classPattern
     classNames.clear()
 
     if not os.path.isdir(parent_path):
@@ -158,56 +214,14 @@ def scan_folder_class(parent_path):
                     classNameList = classPattern.findall(fileObjc.read())
                     fileObjc.close()
                     for className in classNameList:
-                        if not className in classNames and not className in class_ignore:
+                        if not is_class_ignore(className):
                             print '类名：' + className
                             classNames.add(className)
 
 
-# ----------------------- 扫描方法名 -----------------------------
-# 扫描指定目录的方法
-def scan_folder_func(parent_path):
-    global funcNames, class_ignore, funcPattern, funcPattern1, func_ignore
-    funcNames.clear()
-
-    if not os.path.isdir(parent_path):
-        print '目录不存在'
-        exit(0)
-
-    # 遍历目录
-    for parent, folders, files in os.walk(parent_path):
-        if is_path_ignore(parent):
-            continue
-        # 筛选.h和.m和.mm文件
-        for fileName in files:
-            # 跳过白名单
-            (name, ftype) = os.path.splitext(fileName)
-            # 文件白名单
-            if is_file_ignore(name):
-                continue
-
-            if ftype == '.h' or ftype == '.m' or ftype == '.mm':
-                with open(os.path.join(parent, fileName), 'r') as fileObjc:
-                    # 方法名表达式匹配
-                    funcNameList = funcPattern.findall(fileObjc.read())
-                    for funcName in funcNameList:
-                        if not funcName in funcNames and not funcName in func_ignore:
-                            print '方法名：' + funcName
-                            funcNames.add(funcName)
-                    fileObjc.close()
-
-                # with open(os.path.join(parent, fileName), 'r') as fileObjc:
-                #     # 方法名表达式匹配
-                #     funcNameList = funcPattern1.findall(fileObjc.read())
-                #     for funcName in funcNameList:
-                #         if not funcName in funcNames and not funcName in func_ignore:
-                #             print '方法名：' + funcName
-                #             funcNames.add(funcName)
-                #     fileObjc.close()
-
-
 # ------------------------ 扫描属性对象参数 -------------------------
 def scan_folder_variable(parent_path):
-    global variableNames, variablePattern
+    global variableNames, variablePattern, variable_ignore, system_variable
     variableNames.clear()
 
     if not os.path.isdir(parent_path):
@@ -232,16 +246,58 @@ def scan_folder_variable(parent_path):
                         variableNameList = variablePattern.findall(line_text)
                         if len(variableNameList) > 0:
                             for variableName in variableNameList:
-                                if not variableName in variableNames and not variableName in variable_ignore:
+                                if not is_variable_ignore(variableName):
                                     print '属性名：' + variableName
                                     variableNames.add(variableName)
                         else:
                             variableNameList = variablePattern1.findall(line_text)
                             if len(variableNameList) > 0:
                                 for variableName in variableNameList:
-                                    if not variableName in variableNames and not variableName in variable_ignore:
+                                    if not is_variable_ignore(variableName):
                                         print '属性名：' + variableName
                                         variableNames.add(variableName)
+
+
+# ----------------------- 扫描方法名 -----------------------------
+# 扫描指定目录的方法
+def scan_folder_func(parent_path):
+    global funcNames, class_ignore, funcPattern, funcPattern1, func_ignore, system_func
+    funcNames.clear()
+
+    if not os.path.isdir(parent_path):
+        print '目录不存在'
+        exit(0)
+
+    # 遍历目录
+    for parent, folders, files in os.walk(parent_path):
+        if is_path_ignore(parent):
+            continue
+        # 筛选.h和.m和.mm文件
+        for fileName in files:
+            # 跳过白名单
+            (name, ftype) = os.path.splitext(fileName)
+            # 文件白名单
+            if is_file_ignore(name):
+                continue
+
+            if ftype == '.h' or ftype == '.m' or ftype == '.mm':
+                with open(os.path.join(parent, fileName), 'r') as fileObjc:
+                    # 方法名表达式匹配
+                    funcNameList = funcPattern.findall(fileObjc.read())
+                    for funcName in funcNameList:
+                        if not is_func_ignore(funcName):
+                            print '方法名：' + funcName
+                            funcNames.add(funcName)
+                    fileObjc.close()
+
+                # with open(os.path.join(parent, fileName), 'r') as fileObjc:
+                #     # 方法名表达式匹配
+                #     funcNameList = funcPattern1.findall(fileObjc.read())
+                #     for funcName in funcNameList:
+                #         if not funcName in funcNames and not funcName in func_ignore:
+                #             print '方法名：' + funcName
+                #             funcNames.add(funcName)
+                #     fileObjc.close()
 
 
 # ------------------------ 执行 --------------------------------
@@ -270,15 +326,15 @@ if __name__ == '__main__':
         if not name in names:
             names.add(name)
 
-    # 扫描需要处理的方法名
-    scan_folder_func(args.path)
-    for name in funcNames:
-        if not name in names:
-            names.add(name)
-
     # # 扫描需要处理的属性名
     scan_folder_variable(args.path)
     for name in variableNames:
+        if not name in names:
+            names.add(name)
+
+    # 扫描需要处理的方法名
+    scan_folder_func(args.path)
+    for name in funcNames:
         if not name in names:
             names.add(name)
 
