@@ -31,14 +31,15 @@ system_file = ('main', 'AppDelegate')
 # 类名白名单
 system_class = ('NS', )
 # 属性名白名单
-system_variable = ('window', 'price', 'string')
+system_variable = ('window', 'price', 'string', 'self', 'path', 'type', 'size', 'height', 'width', 'content')
 # 方法名白名单
 system_func = ('main', 'application', 'applicationWillResignActive', 'applicationDidEnterBackground',
                'applicationWillEnterForeground', 'applicationDidBecomeActive', 'applicationWillTerminate', 'view',
                'init', 'viewDidLoad', 'viewWillAppear', 'viewWillDisappear', 'didReceiveMemoryWarning',
                'viewWillLayoutSubviews', 'dealloc', 'valueForKey', 'setValue', 'requestDidFinish',
                'safariViewController', 'safariViewControllerDidFinish', 'tableView', 'numberOfSectionsInTableView',
-               'paymentQueue', 'productsRequest', 'request', 'initWithNibName', 'mailComposeController')
+               'paymentQueue', 'productsRequest', 'request', 'initWithNibName', 'mailComposeController', 'initWithFrame'
+               , 'content')
 
 # ----------------------------------- 官包SDK ---------------------------------------
 # 文件夹白名单
@@ -55,32 +56,32 @@ system_func = ('main', 'application', 'applicationWillResignActive', 'applicatio
 
 # -------------------------------- V8SDK ------------------------------------
 # 文件夹白名单
-# path_ignore = ()
-# # 文件白名单
-# file_ignore = ()
-# # 类名白名单
-# class_ignore = ()
-# # 属性名白名单
-# variable_ignore = ('name', 'error', 'title', 'viewController', 'url', 'productId', 'price', 'roleID', 'roleName',
-#                    'serverID', 'serverName', 'productName', 'productDesc', 'extension', 'orderID', 'serverId', 'roleId',
-#                    'resultCount', )
-# # 方法名白名单
-# func_ignore = ('initWithResult', 'initWithDict', 'initWithDictionary', 'title', 'valueForUndefinedKey', 'GetView',
-#                'viewController', 'url', 'GetViewController', )
-
-# -------------------------------- 官包SDK + V8SDK ---------------------------
-# 文件夹白名单
-path_ignore = ('Masonry', )
+path_ignore = ()
 # 文件白名单
-file_ignore = ('MBProgressHUD', )
+file_ignore = ()
 # 类名白名单
 class_ignore = ()
 # 属性名白名单
-variable_ignore = ('name', 'error', 'title', 'viewController', 'url', 'resultCount', 'type')
+variable_ignore = ('name', 'error', 'title', 'viewController', 'url', 'productId', 'price', 'roleID', 'roleName',
+                   'serverID', 'serverName', 'productName', 'productDesc', 'extension', 'orderID', 'serverId', 'roleId',
+                   'resultCount', )
 # 方法名白名单
 func_ignore = ('initWithResult', 'initWithDict', 'initWithDictionary', 'title', 'valueForUndefinedKey', 'GetView',
-               'viewController', 'url', 'GetViewController', 'initWithX', 'completedTransactionsFinished',
-               'currentSDKVersion')
+               'viewController', 'url', 'GetViewController', )
+
+# -------------------------------- 官包SDK + V8SDK ---------------------------
+# 文件夹白名单
+# path_ignore = ('Masonry', )
+# # 文件白名单
+# file_ignore = ('MBProgressHUD', )
+# # 类名白名单
+# class_ignore = ()
+# # 属性名白名单
+# variable_ignore = ('name', 'error', 'title', 'viewController', 'url', 'resultCount', 'type')
+# # 方法名白名单
+# func_ignore = ('initWithResult', 'initWithDict', 'initWithDictionary', 'title', 'valueForUndefinedKey', 'GetView',
+#                'viewController', 'url', 'GetViewController', 'initWithX', 'completedTransactionsFinished',
+#                'currentSDKVersion')
 
 
 
@@ -319,6 +320,7 @@ if __name__ == '__main__':
     args = parse_args()
     # 创建一个头文件名字
     headerName = get_one_name() + '.h'
+    # headerName = 'Pcarrot.h'
 
     # 扫描需要处理的类名
     scan_folder_class(args.path)
