@@ -115,9 +115,9 @@ variablePattern = re.compile('@property\s*\(.*?\)\s*\w+\s*\*?\s*(\w+?);')
 variablePattern1 = re.compile('\s*\w+\s*\*\s*(\w+);')
 
 # 获取单词库
-with open(os.path.join(script_path, 'word_list.json'), 'r') as fileObjc:
-    word_names = json.load(fileObjc)
-    fileObjc.close()
+with open(os.path.join(script_path, 'word_list.json'), 'r') as fileObj:
+    word_names = json.load(fileObj)
+    fileObj.close()
 
 
 # 获取一个随机名
@@ -131,16 +131,22 @@ def add_define_class(header_path, nameList):
     global defineNames
     defineNames.clear()
 
-    with open(header_path, 'a+') as fileObjc:
-        for className in nameList:
-            # 判断唯一性
+    dataStr = ''
+    for className in nameList:
+        # 判断唯一性
+        defineName = get_one_name()
+        while defineName in defineNames:
             defineName = get_one_name()
-            while defineName in defineNames:
-                defineName = get_one_name()
-            defineNames.add(defineName)
+        defineNames.add(defineName)
+        # 拼接数据
+        defineStr = '#define ' + className + ' ' + defineName + '\n'
+        dataStr = dataStr + defineStr
 
-            fileObjc.write('#define ' + className + ' ' + defineName + '\n')
-        fileObjc.close()
+    with open(header_path, 'a+') as fileObj:
+        fileObj.write(dataStr)
+        # 刷新缓冲区
+        fileObj.flush()
+        fileObj.close()
 
 
 # ------------------------ 判断白名单 ---------------------------
@@ -210,10 +216,10 @@ def scan_folder_class(parent_path):
                 continue
 
             if ftype == '.h':
-                with open(os.path.join(parent, fileName), 'r') as fileObjc:
+                with open(os.path.join(parent, fileName), 'r') as fileObj:
                     # 类名表达式匹配
-                    classNameList = classPattern.findall(fileObjc.read())
-                    fileObjc.close()
+                    classNameList = classPattern.findall(fileObj.read())
+                    fileObj.close()
                     for className in classNameList:
                         if not is_class_ignore(className):
                             print '类名：' + className
@@ -240,9 +246,9 @@ def scan_folder_variable(parent_path):
             if is_file_ignore(name):
                 continue
             if ftype == '.h' or ftype == '.m' or ftype == '.mm':
-                with open(os.path.join(parent, fileName), 'r') as fileObjc:
+                with open(os.path.join(parent, fileName), 'r') as fileObj:
                     # 属性名表达式匹配
-                    lines = fileObjc.readlines()
+                    lines = fileObj.readlines()
                     for line_text in lines:
                         variableNameList = variablePattern.findall(line_text)
                         if len(variableNameList) > 0:
@@ -282,23 +288,23 @@ def scan_folder_func(parent_path):
                 continue
 
             if ftype == '.h' or ftype == '.m' or ftype == '.mm':
-                with open(os.path.join(parent, fileName), 'r') as fileObjc:
+                with open(os.path.join(parent, fileName), 'r') as fileObj:
                     # 方法名表达式匹配
-                    funcNameList = funcPattern.findall(fileObjc.read())
+                    funcNameList = funcPattern.findall(fileObj.read())
                     for funcName in funcNameList:
                         if not is_func_ignore(funcName):
                             print '方法名：' + funcName
                             funcNames.add(funcName)
-                    fileObjc.close()
+                    fileObj.close()
 
-                # with open(os.path.join(parent, fileName), 'r') as fileObjc:
+                # with open(os.path.join(parent, fileName), 'r') as fileObj:
                 #     # 方法名表达式匹配
-                #     funcNameList = funcPattern1.findall(fileObjc.read())
+                #     funcNameList = funcPattern1.findall(fileObj.read())
                 #     for funcName in funcNameList:
                 #         if not funcName in funcNames and not funcName in func_ignore:
                 #             print '方法名：' + funcName
                 #             funcNames.add(funcName)
-                #     fileObjc.close()
+                #     fileObj.close()
 
 
 # ------------------------ 执行 --------------------------------
