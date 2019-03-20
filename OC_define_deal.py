@@ -29,7 +29,7 @@ import re
 # # 文件白名单
 system_file = ('main', 'AppDelegate')
 # 类名白名单
-system_class = ('NS', )
+system_class = ()
 # 属性名白名单
 system_variable = ('window', 'price', 'string', 'self', 'path', 'type', 'size', 'height', 'width', 'content')
 # 方法名白名单
@@ -64,7 +64,7 @@ class_ignore = ()
 # 属性名白名单
 variable_ignore = ('name', 'error', 'title', 'viewController', 'url', 'productId', 'price', 'roleID', 'roleName',
                    'serverID', 'serverName', 'productName', 'productDesc', 'extension', 'orderID', 'serverId', 'roleId',
-                   'resultCount', )
+                   'resultCount', 'param')
 # 方法名白名单
 func_ignore = ('initWithResult', 'initWithDict', 'initWithDictionary', 'title', 'valueForUndefinedKey', 'GetView',
                'viewController', 'url', 'GetViewController', )
@@ -77,7 +77,7 @@ func_ignore = ('initWithResult', 'initWithDict', 'initWithDictionary', 'title', 
 # # 类名白名单
 # class_ignore = ()
 # # 属性名白名单
-# variable_ignore = ('name', 'error', 'title', 'viewController', 'url', 'resultCount', 'type')
+# variable_ignore = ('name', 'error', 'title', 'viewController', 'url', 'resultCount', 'type', 'param')
 # # 方法名白名单
 # func_ignore = ('initWithResult', 'initWithDict', 'initWithDictionary', 'title', 'valueForUndefinedKey', 'GetView',
 #                'viewController', 'url', 'GetViewController', 'initWithX', 'completedTransactionsFinished',
