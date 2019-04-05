@@ -330,21 +330,15 @@ if __name__ == '__main__':
 
     # 扫描需要处理的类名
     scan_folder_class(args.path)
-    for name in classNames:
-        if not name in names:
-            names.add(name)
 
     # # 扫描需要处理的属性名
     scan_folder_variable(args.path)
-    for name in variableNames:
-        if not name in names:
-            names.add(name)
 
     # 扫描需要处理的方法名
     scan_folder_func(args.path)
-    for name in funcNames:
-        if not name in names:
-            names.add(name)
+
+    # 合并需要混淆的名字
+    names = classNames | variableNames | funcNames
 
     # 添加宏混淆
     add_define_class(os.path.join(define_header_path, headerName), names)
