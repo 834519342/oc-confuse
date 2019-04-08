@@ -56,32 +56,32 @@ system_func = ('main', 'application', 'applicationWillResignActive', 'applicatio
 
 # -------------------------------- V8SDK ------------------------------------
 # 文件夹白名单
-path_ignore = ()
-# 文件白名单
-file_ignore = ()
-# 类名白名单
-class_ignore = ()
-# 属性名白名单
-variable_ignore = ('name', 'error', 'title', 'viewController', 'url', 'productId', 'price', 'roleID', 'roleName',
-                   'serverID', 'serverName', 'productName', 'productDesc', 'extension', 'orderID', 'serverId', 'roleId',
-                   'resultCount', 'param')
-# 方法名白名单
-func_ignore = ('initWithResult', 'initWithDict', 'initWithDictionary', 'title', 'valueForUndefinedKey', 'GetView',
-               'viewController', 'url', 'GetViewController', )
-
-# -------------------------------- 官包SDK + V8SDK ---------------------------
-# 文件夹白名单
-# path_ignore = ('Masonry', )
+# path_ignore = ()
 # # 文件白名单
-# file_ignore = ('MBProgressHUD', )
+# file_ignore = ()
 # # 类名白名单
 # class_ignore = ()
 # # 属性名白名单
-# variable_ignore = ('name', 'error', 'title', 'viewController', 'url', 'resultCount', 'type', 'param')
+# variable_ignore = ('name', 'error', 'title', 'viewController', 'url', 'productId', 'price', 'roleID', 'roleName',
+#                    'serverID', 'serverName', 'productName', 'productDesc', 'extension', 'orderID', 'serverId', 'roleId',
+#                    'resultCount', 'param', 'replacement')
 # # 方法名白名单
 # func_ignore = ('initWithResult', 'initWithDict', 'initWithDictionary', 'title', 'valueForUndefinedKey', 'GetView',
-#                'viewController', 'url', 'GetViewController', 'initWithX', 'completedTransactionsFinished',
-#                'currentSDKVersion')
+#                'viewController', 'url', 'GetViewController')
+
+# -------------------------------- 官包SDK + V8SDK ---------------------------
+# 文件夹白名单
+path_ignore = ('Masonry', )
+# 文件白名单
+file_ignore = ('MBProgressHUD', )
+# 类名白名单
+class_ignore = ()
+# 属性名白名单
+variable_ignore = ('name', 'error', 'title', 'viewController', 'url', 'resultCount', 'type', 'param', 'replacement')
+# 方法名白名单
+func_ignore = ('initWithResult', 'initWithDict', 'initWithDictionary', 'title', 'valueForUndefinedKey', 'GetView',
+               'viewController', 'url', 'GetViewController', 'initWithX', 'completedTransactionsFinished',
+               'currentSDKVersion')
 
 
 
