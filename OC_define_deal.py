@@ -124,7 +124,7 @@ with open(os.path.join(script_path, 'word_list.json'), 'r') as fileObj:
 def get_one_name():
     global word_names
     # 首字母大写
-    return ''.join((random.choice(word_names)).capitalize())
+    return 'HX' + ''.join((random.choice(word_names)).capitalize())
     # return ''.join(random.sample(string.ascii_uppercase, 1)) + random.choice(word_names)
 
 
