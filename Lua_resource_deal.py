@@ -230,6 +230,7 @@ def main():
 
     # 添加垃圾文件
     add_file_to(target_path, 0)
+
     print '\n\nstart modify file md5'
     # 修改MD5值
     change_folder_MD5(target_path)

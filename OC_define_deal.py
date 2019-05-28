@@ -119,12 +119,19 @@ with open(os.path.join(script_path, 'word_list.json'), 'r') as fileObj:
     word_names = json.load(fileObj)
     fileObj.close()
 
+# 名字前缀
+name_prefix = ''
+def get_name_prefix():
+    global name_prefix
+    if len(name_prefix) == 0:
+        name_prefix = ''.join(random.sample(string.ascii_uppercase, 2))
+    return name_prefix
 
 # 获取一个随机名
 def get_one_name():
     global word_names
     # 首字母大写
-    return 'HX' + ''.join((random.choice(word_names)).capitalize())
+    return get_name_prefix() + ''.join((random.choice(word_names)).capitalize())
     # return ''.join(random.sample(string.ascii_uppercase, 1)) + random.choice(word_names)
 
 
