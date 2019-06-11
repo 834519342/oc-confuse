@@ -54,7 +54,7 @@ system_func = ('main', 'application', 'applicationWillResignActive', 'applicatio
 # # 方法名白名单
 # func_ignore = ('initWithX', 'completedTransactionsFinished', 'currentSDKVersion')
 
-# -------------------------------- V8SDK ------------------------------------
+# -------------------------------- V8SDK ------------------------------------/Users/xiaoqq/Desktop/1/CSV8SDK
 # 文件夹白名单
 path_ignore = ()
 # 文件白名单
@@ -69,7 +69,7 @@ variable_ignore = ('name', 'error', 'title', 'viewController', 'url', 'productId
 func_ignore = ('initWithResult', 'initWithDict', 'initWithDictionary', 'title', 'valueForUndefinedKey', 'GetView',
                'viewController', 'url', 'GetViewController')
 
-# -------------------------------- 官包SDK + V8SDK ---------------------------
+# -------------------------------- 官包SDK + V8SDK ---------------------------/Users/xiaoqq/Desktop/1
 # 文件夹白名单
 # path_ignore = ('Masonry', )
 # # 文件白名单
