@@ -55,7 +55,6 @@ junkFiles_path = os.path.join(script_path, 'JunkFiles')
 # 获取单词库，用来命名
 with open(os.path.join(script_path, 'word_list.json'), 'r') as fileObj:
     word_names = json.load(fileObj)
-    fileObj.close()
 
 
 # 获取一个随机名字
@@ -86,9 +85,6 @@ def get_junkData(ftype=''):
 def get_one_file(file_path, ftype=''):
     with open(file_path, 'w') as fileObj:
         fileObj.write(get_junkData(ftype))
-        # 刷新缓存
-        fileObj.flush()
-        fileObj.close()
 
 
 # 添加单个文件夹的垃圾文件
