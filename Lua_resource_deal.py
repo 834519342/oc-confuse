@@ -2,7 +2,6 @@
 # -*- coding:utf-8 -*-
 
 '''
-
 resource 英 [rɪ'sɔːs; rɪ'zɔːs] n. 资源，财力；办法；智谋
 exclude 英 [ɪk'skluːd; ek-] vt. 排除；排斥；拒绝接纳；逐出
 match 英 [mætʃ] n. 比赛，竞赛；匹配；对手；火柴
@@ -17,7 +16,6 @@ parse 英 [pɑːz] vt. 解析；从语法上分析
 argument 英 ['ɑːgjʊm(ə)nt] n. 论证；论据；争吵；内容提要
 description 英 [dɪ'skrɪpʃ(ə)n] n. 描述，描写；类型；说明书
 exist 英 [ɪg'zɪst; eg-] vi. 存在；生存；生活；继续存在
-
 '''
 
 import os
@@ -54,12 +52,11 @@ match_rule = {
 }
 
 # 确保函数名的唯一
-funcnames = set()
+func_names_set = set()
 
 # 获取单词列表，用以随机名称
 with open(os.path.join(script_path, './word_list.json'), 'r') as fileObj:
     word_name_list = json.load(fileObj)
-    fileObj.close()
 
 
 # 获取一个随机名称
@@ -67,23 +64,23 @@ def get_one_name():
     global word_name_list
     return random.choice(word_name_list)
 
+
 # ----------------------- 创建lua垃圾代码，创建垃圾图片数据 -------------------------
 # 获取lua垃圾方法
 def get_lua_func_text():
-    global funcnames
+    global func_names_set
     new_func_name = get_one_name()
-    while new_func_name in funcnames:
+    while new_func_name in func_names_set:
         new_func_name = get_one_name()
-    funcnames.add(new_func_name)
+    func_names_set.add(new_func_name)
 
     argv_name = get_one_name() + get_one_name()
     text = [
         '\nlocal function ' + new_func_name + '()\n',
         '\tlocal %s = %d + %d\n' % (argv_name, random.randint(1, 1000), random.randint(1, 1000)),
-        '\treturn %s\n' % (argv_name),
+        '\treturn %s\n' % argv_name,
         'end\n'
     ]
-    # return ''.join(text)
     return string.join(text)
 
 
@@ -97,24 +94,22 @@ def get_png_text():
 # ---------------------- 遍历指定目录，添加lua垃圾文件或png垃圾路片 ---------------------
 # 添加单个垃圾文件(lua文件和png文件)
 def add_single_file(file_path):
-    global target_path, funcnames
+    global target_path, func_names_set
     # 只缓存单个文件的方法名
-    funcnames.clear()
+    func_names_set.clear()
 
     print 'add file：' + file_path.replace(target_path, '')
     # os.path.splitext(path) 分割路径，返回路径名和文件扩展名的元组
     (_, file_type) = os.path.splitext(file_path)
     if file_type == '.lua':
-        with open(file_path, 'w') as fileObj:
+        with open(file_path, 'w') as file_Obj:
             func_num = random.randint(10, 15)
             for j in range(0, func_num):
                 func_text = get_lua_func_text()
-                fileObj.write(func_text)
-            fileObj.close()
+                file_Obj.write(func_text)
     elif file_type == '.png':
-        with open(file_path, 'wb') as fileObj:
-            fileObj.write(get_png_text())
-            fileObj.close()
+        with open(file_path, 'wb') as file_Obj:
+            file_Obj.write(get_png_text())
     else:
         pass
 
@@ -172,9 +167,9 @@ def add_file_to(parent_folder, level, min_file_num=0):
 
 # -------------------------- 遍历指定的目录，修改文件资源的md5值 --------------------------
 # 改md5值
-def change_singleFile_MD5(file_path):
+def change_file_md5(file_path):
     _, file_type = os.path.splitext(file_path)
-    with open(file_path, 'ab') as fileObj:
+    with open(file_path, 'ab') as file_Obj:
         if file_type == '.png':
             # sample(seq, n) 从序列seq中选择n个随机且独立的元素
             # ascii_letters 是生成所有字母，从a-z和A-Z
@@ -185,20 +180,19 @@ def change_singleFile_MD5(file_path):
             text = '\n--#*' + ''.join(random.sample(string.ascii_letters, 10))
         else:
             text = ' ' * random.randint(1, 100)
-        fileObj.write(text)
-        fileObj.close()
+        file_Obj.write(text)
 
 
 # 遍历文件路径，改变md5值
-def change_folder_MD5(target_path):
+def search_folder_md5(search_path):
     # 文件类型筛选条件
     type_filter = set(['.png', '.jpg', '.lua', '.json', '.plist', '.fnt'])
-    for parent, folders, files in os.walk(target_path):
+    for parent, folders, files in os.walk(search_path):
         for file1 in files:
             full_path = os.path.join(parent, file1)
             _, file_type = os.path.splitext(full_path)
             if file_type in type_filter:
-                change_singleFile_MD5(full_path)
+                change_file_md5(full_path)
 
 
 # 解析命令行参数
@@ -233,10 +227,9 @@ def main():
 
     print '\n\nstart modify file md5'
     # 修改MD5值
-    change_folder_MD5(target_path)
+    search_folder_md5(target_path)
     print 'finish!'
 
 
 if __name__ == '__main__':
     main()
-

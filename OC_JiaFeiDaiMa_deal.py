@@ -55,7 +55,7 @@ ios_src_path = ""
 
 # 确保添加的函数不重名
 # set() 函数创建一个无序不重复元素集，可进行关系测试，删除重复数据，还可以计算交集、差集、并集等。
-funcname_set = set()
+func_names_set = set()
 
 # 单词列表，用以随机名称
 # 打开json文件
@@ -65,28 +65,29 @@ with open(os.path.join(script_path, './word_list.json'), 'r') as fileObj:
 
 
 # 获取一个随机名称
-def getOneName():
+def get_one_name():
     global word_name_list
     # choice() 方法返回一个列表，元组或字符串的随机项。
     return random.choice(word_name_list)
 
+
 # ------------------ 创建一个垃圾函数的声明与实现的模板 ------------------
 # oc代码头文件函数声明
-def getOCHeaderFuncText():
-    global funcname_set
-    funcName = getOneName() + getOneName()
+def get_oc_header_func_text():
+    global func_names_set
+    func_name = get_one_name() + get_one_name()
     # 防止出现重复的函数
-    while funcName in funcname_set:
-        funcName = getOneName() + getOneName()
-    funcname_set.add(funcName)
+    while func_name in func_names_set:
+        func_name = get_one_name() + get_one_name()
+    func_names_set.add(func_name)
 
-    text = "\n- (void)%s" % funcName
+    text = "\n- (void)%s" % func_name
     return text
 
 
 # oc代码函数实现模板
-def getOCFuncText(header_text):
-    arg1 = getOneName() + getOneName() + getOneName()
+def get_oc_func_text(header_text):
+    arg1 = get_one_name() + get_one_name() + get_one_name()
     text = [
         header_text + "\n",
         "{\n"
@@ -99,10 +100,10 @@ def getOCFuncText(header_text):
 
 # ------------------ 扫描指定目录，在.h和.m文件中添加垃圾函数 ------------------
 # oc代码以@end结尾，在其前面添加text
-def appendTextToOCFile(file_path, text):
-    with open(file_path, 'r') as fileObj:
-        old_text = fileObj.read()
-        fileObj.close()
+def append_text_to_oc_file(file_path, text):
+    with open(file_path, 'r') as file_Obj:
+        old_text = file_Obj.read()
+
         # Python rfind() 返回字符串最后一次出现的位置(从右向左查询)，如果没有匹配项则返回-1。
         end_mark_index = old_text.rfind("@end")
         if end_mark_index == -1:
@@ -114,16 +115,15 @@ def appendTextToOCFile(file_path, text):
         new_text = new_text + old_text[end_mark_index:]
 
         # 写入文件
-        with open(file_path, "w") as fileObj:
-            fileObj.write(new_text)
-            fileObj.close()
+        with open(file_path, "w") as file_Obj_1:
+            file_Obj_1.write(new_text)
 
 
 # 处理单个OC文件，添加垃圾函数。确保其对应头文件存在于相同目录，参数传入.m文件的名字和路径
-def dealWithOCFile(filename, file_path):
-    global funcname_set, create_func_min, create_func_max
+def deal_with_oc_file(filename, file_path):
+    global func_names_set, create_func_min, create_func_max
     # clear() 方法用于移除集合中的所有元素。
-    funcname_set.clear()
+    func_names_set.clear()
     end_index = file_path.rfind(".")
     pre_name = file_path[:end_index]
     header_path = pre_name + ".h"
@@ -135,15 +135,15 @@ def dealWithOCFile(filename, file_path):
     new_func_num = random.randint(create_func_min, create_file_max)
     print "\t给%s添加%d个方法" % (filename, new_func_num)
     for i in range(new_func_num):
-        header_text = getOCHeaderFuncText()
-        appendTextToOCFile(header_path, header_text + ";\n")
+        header_text = get_oc_header_func_text()
+        append_text_to_oc_file(header_path, header_text + ";\n")
 
-        funcText = getOCFuncText(header_text)
-        appendTextToOCFile(file_path, funcText)
+        func_text = get_oc_func_text(header_text)
+        append_text_to_oc_file(file_path, func_text)
 
 
 # 扫描parent_folder,添加垃圾函数
-def addOCFunctions(parent_folder):
+def add_oc_functions(parent_folder):
     global ignore_file_list, ignore_folder_list
     # os.walk() 方法是一个简单易用的文件、目录遍历器，可以帮助我们高效的处理文件、目录方面的事情。
     # 返回 当前目录，文件夹list，文件list
@@ -161,29 +161,29 @@ def addOCFunctions(parent_folder):
             continue
 
         # 跳过指定的文件,只处理OC文件
-        for file in files:
-            if file.endswith('.m') or file.endswith('.mm'):
-                if file in ignore_file_list:
+        for file_1 in files:
+            if file_1.endswith('.m') or file_1.endswith('.mm'):
+                if file_1 in ignore_file_list:
                     continue
-                dealWithOCFile(file, os.path.join(parent, file))
+                deal_with_oc_file(file_1, os.path.join(parent, file_1))
 
 
 # --------------------------- 创建垃圾类文件的代码模板 --------------------------------
-# 创建垃圾文件header模板
-def getOCHeaderFileText(class_name):
+# 创建.h代码
+def get_oc_h_file_text(class_name):
     text = [
         "#import <UIKit/UIKit.h>\n",
         "#import <Foundation/Foundation.h>\n\n",
         "@interface %s : NSObject {\n" % class_name,
-        "\tint %s;\n" % getOneName(),
-        "\tfloat %s;\n" % getOneName(),
+        "\tint %s;\n" % get_one_name(),
+        "\tfloat %s;\n" % get_one_name(),
         "}\n\n@end"
     ]
     return ''.join(text)
 
 
-# 创建垃圾文件mm模板
-def getOCMMFileText(class_name):
+# 创建.m代码
+def get_oc_m_file_text(class_name):
     text = [
         "#import \"%s.h\"\n\n" % class_name,
         "@implementation %s\n" % class_name,
@@ -194,7 +194,7 @@ def getOCMMFileText(class_name):
 
 # ---------------------- 在指定目录下创建垃圾类文件 -----------------------
 # 添加垃圾文件到parent_folder/trash/
-def addOCFile(parent_folder):
+def add_oc_file(parent_folder):
     global create_file_min, create_file_max
     file_list = []
     target_folder = os.path.join(parent_folder, 'trash')
@@ -205,32 +205,31 @@ def addOCFile(parent_folder):
     os.mkdir(target_folder)
     file_num = random.randint(create_file_min, create_file_max)
     for i in range(file_num):
-        file_name = getOneName()
+        file_name = get_one_name()
         # 避免出现重复的文件名
         while "#import \"" + file_name + ".h\"" in file_list:
-            file_name = getOneName()
+            file_name = get_one_name()
 
         # 引用每一个创建的类
         file_list.append("#import \"" + file_name + ".h\"")
 
         print "\t创建OC文件 trash/" + file_name
         # 创建基础的.h文件
-        header_text = getOCHeaderFileText(file_name)
+        header_text = get_oc_h_file_text(file_name)
         full_path = os.path.join(target_folder, file_name + '.h')
-        with open(full_path, 'w') as fileObj:
-            fileObj.write(header_text)
-            fileObj.close()
+        with open(full_path, 'w') as file_Obj:
+            file_Obj.write(header_text)
+
         # 创建基础的.m文件
-        mm_text = getOCMMFileText(file_name)
+        mm_text = get_oc_m_file_text(file_name)
         full_path = os.path.join(target_folder, file_name + '.m')
-        with open(full_path, 'w') as fileObj:
-            fileObj.write(mm_text)
-            fileObj.close()
+        with open(full_path, 'w') as file_Obj:
+            file_Obj.write(mm_text)
+
     # 创建引用所有垃圾类的文件
     all_header_text = '\n'.join(file_list)
-    with open(os.path.join(parent_folder, 'Trash.h'), 'w') as fileObj:
-        fileObj.write(all_header_text)
-        fileObj.close()
+    with open(os.path.join(parent_folder, 'Trash.h'), 'w') as file_Obj:
+        file_Obj.write(all_header_text)
 
 
 # 命令行参数解析
@@ -258,9 +257,9 @@ def main():
     shutil.copytree(ios_src_path, target_ios_folder)
 
     print '开始创建oc文件到trash目录'
-    addOCFile(target_ios_folder)
+    add_oc_file(target_ios_folder)
     print '\n开始添加oc方法'
-    addOCFunctions(target_ios_folder)
+    add_oc_functions(target_ios_folder)
 
     # 如果要替换，则先备份
     if app_args.replace:

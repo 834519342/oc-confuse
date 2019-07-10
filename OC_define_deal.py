@@ -84,7 +84,6 @@ func_ignore = ('initWithResult', 'initWithDict', 'initWithDictionary', 'title', 
 #                'currentSDKVersion')
 
 
-
 # 设置默认编码格式
 default_encoding = 'utf-8'
 if sys.getdefaultencoding() != default_encoding:
@@ -109,7 +108,7 @@ defineNames = set()
 classPattern = re.compile('@interface\s+(\w+)\s+:\s+\w+')
 
 funcPattern = re.compile('\s*-\s*\(.+?\)\s*(\w+)')
-# funcPattern1 = re.compile('\s*(\w+):\(.+?\)\s*\w+')
+funcPattern1 = re.compile('\s*(\w+):\(.+?\)\s*\w+')
 
 variablePattern = re.compile('@property\s*\(.*?\)\s*\w+\s*\*?\s*(\w+?);')
 variablePattern1 = re.compile('\s*\w+\s*\*\s*(\w+);')
@@ -117,15 +116,16 @@ variablePattern1 = re.compile('\s*\w+\s*\*\s*(\w+);')
 # 获取单词库
 with open(os.path.join(script_path, 'word_list.json'), 'r') as fileObj:
     word_names = json.load(fileObj)
-    fileObj.close()
 
-# 名字前缀
+
+# 名字前缀，只随机一次
 name_prefix = ''
 def get_name_prefix():
     global name_prefix
     if len(name_prefix) == 0:
         name_prefix = ''.join(random.sample(string.ascii_uppercase, 2))
     return name_prefix
+
 
 # 获取一个随机名
 def get_one_name():
@@ -136,26 +136,23 @@ def get_one_name():
 
 
 # 添加宏到.h文件
-def add_define_class(header_path, nameList):
+def add_define_class(header_path, name_list):
     global defineNames
     defineNames.clear()
 
-    dataStr = ''
-    for className in nameList:
+    data_str = ''
+    for className in name_list:
         # 判断唯一性
-        defineName = get_one_name()
-        while defineName in defineNames:
-            defineName = get_one_name()
-        defineNames.add(defineName)
+        define_name = get_one_name()
+        while define_name in defineNames:
+            define_name = get_one_name()
+        defineNames.add(define_name)
         # 拼接数据
-        defineStr = '#define ' + className + ' ' + defineName + '\n'
-        dataStr = dataStr + defineStr
+        define_str = '#define ' + className + ' ' + define_name + '\n'
+        data_str = data_str + define_str
 
-    with open(header_path, 'a+') as fileObj:
-        fileObj.write(dataStr)
-        # 刷新缓冲区
-        fileObj.flush()
-        fileObj.close()
+    with open(header_path, 'a+') as file_Obj:
+        file_Obj.write(data_str)
 
 
 # ------------------------ 判断白名单 ---------------------------
@@ -219,17 +216,16 @@ def scan_folder_class(parent_path):
             continue
         # 筛选.h文件
         for fileName in files:
-            (name, ftype) = os.path.splitext(fileName)
+            (name, f_type) = os.path.splitext(fileName)
             # 文件白名单
             if is_file_ignore(name):
                 continue
 
-            if ftype == '.h':
+            if f_type == '.h':
                 with open(os.path.join(parent, fileName), 'r') as fileObj:
                     # 类名表达式匹配
-                    classNameList = classPattern.findall(fileObj.read())
-                    fileObj.close()
-                    for className in classNameList:
+                    class_name_list = classPattern.findall(fileObj.read())
+                    for className in class_name_list:
                         if not is_class_ignore(className):
                             print '类名：' + className
                             classNames.add(className)
@@ -250,25 +246,25 @@ def scan_folder_variable(parent_path):
             continue
         # 筛选指定类型的文件
         for fileName in files:
-            (name, ftype) = os.path.splitext(fileName)
+            (name, f_type) = os.path.splitext(fileName)
             # 文件白名单
             if is_file_ignore(name):
                 continue
-            if ftype == '.h' or ftype == '.m' or ftype == '.mm':
-                with open(os.path.join(parent, fileName), 'r') as fileObj:
+            if f_type == '.h' or f_type == '.m' or f_type == '.mm':
+                with open(os.path.join(parent, fileName), 'r') as file_Obj:
                     # 属性名表达式匹配
-                    lines = fileObj.readlines()
+                    lines = file_Obj.readlines()
                     for line_text in lines:
-                        variableNameList = variablePattern.findall(line_text)
-                        if len(variableNameList) > 0:
-                            for variableName in variableNameList:
+                        variable_name_list = variablePattern.findall(line_text)
+                        if len(variable_name_list) > 0:
+                            for variableName in variable_name_list:
                                 if not is_variable_ignore(variableName):
                                     print '属性名：' + variableName
                                     variableNames.add(variableName)
                         else:
-                            variableNameList = variablePattern1.findall(line_text)
-                            if len(variableNameList) > 0:
-                                for variableName in variableNameList:
+                            variable_name_list = variablePattern1.findall(line_text)
+                            if len(variable_name_list) > 0:
+                                for variableName in variable_name_list:
                                     if not is_variable_ignore(variableName):
                                         print '属性名：' + variableName
                                         variableNames.add(variableName)
@@ -299,12 +295,11 @@ def scan_folder_func(parent_path):
             if ftype == '.h' or ftype == '.m' or ftype == '.mm':
                 with open(os.path.join(parent, fileName), 'r') as fileObj:
                     # 方法名表达式匹配
-                    funcNameList = funcPattern.findall(fileObj.read())
-                    for funcName in funcNameList:
+                    func_name_list = funcPattern.findall(fileObj.read())
+                    for funcName in func_name_list:
                         if not is_func_ignore(funcName):
                             print '方法名：' + funcName
                             funcNames.add(funcName)
-                    fileObj.close()
 
                 # with open(os.path.join(parent, fileName), 'r') as fileObj:
                 #     # 方法名表达式匹配
@@ -313,7 +308,6 @@ def scan_folder_func(parent_path):
                 #         if not funcName in funcNames and not funcName in func_ignore:
                 #             print '方法名：' + funcName
                 #             funcNames.add(funcName)
-                #     fileObj.close()
 
 
 # ------------------------ 执行 --------------------------------
@@ -335,7 +329,6 @@ if __name__ == '__main__':
     args = parse_args()
     # 创建一个头文件名字
     headerName = get_one_name() + '.h'
-    # headerName = 'Pcarrot.h'
 
     # 扫描需要处理的类名
     scan_folder_class(args.path)

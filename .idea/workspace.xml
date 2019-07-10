@@ -3,7 +3,13 @@
   <component name="ChangeListManager">
     <list default="true" id="03769c70-44ae-4da2-968e-dcad46db90e5" name="默认更改列表" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/JunkFile_maker" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/JunkFile_maker.py" beforeDir="false" afterPath="$PROJECT_DIR$/JunkFile_maker.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Lua_resource_deal" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Lua_resource_deal.py" beforeDir="false" afterPath="$PROJECT_DIR$/Lua_resource_deal.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OC_JiaFeiDaiMa_deal" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OC_JiaFeiDaiMa_deal.py" beforeDir="false" afterPath="$PROJECT_DIR$/OC_JiaFeiDaiMa_deal.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OC_define_deal.py" beforeDir="false" afterPath="$PROJECT_DIR$/OC_define_deal.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -12,12 +18,12 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+    <leaf>
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/OC_define_deal.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="167">
-              <caret line="56" column="108" selection-start-line="56" selection-start-column="77" selection-end-line="56" selection-end-column="108" />
+            <state relative-caret-position="306">
+              <caret line="25" column="9" lean-forward="true" selection-start-line="25" selection-start-column="9" selection-end-line="25" selection-end-column="9" />
             </state>
           </provider>
         </entry>
@@ -25,13 +31,49 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/JunkFile_maker.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="869">
-              <caret line="143" selection-start-line="143" selection-end-line="143" />
+            <state relative-caret-position="449">
+              <caret line="77" column="19" selection-start-line="77" selection-start-column="19" selection-end-line="77" selection-end-column="19" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Lua_resource_deal.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="379">
+              <caret line="228" column="12" selection-start-line="228" selection-start-column="12" selection-end-line="228" selection-end-column="12" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/OC_JiaFeiDaiMa_deal.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-1726">
+              <caret line="129" selection-start-line="129" selection-end-line="129" />
             </state>
           </provider>
         </entry>
       </file>
     </leaf>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>with</find>
+      <find>name_prefix</find>
+      <find>getOneName</find>
+      <find>getOCHeaderFuncText</find>
+      <find>funcname_set</find>
+      <find>getOCFuncText</find>
+      <find>appendTextToOCFile</find>
+      <find>dealWithOCFile</find>
+      <find>addOCFunctions</find>
+      <find>getOCHeaderFileText</find>
+      <find>getOCMMFileText</find>
+      <find>func_name_set</find>
+      <find>funcnames</find>
+      <find>change_folder_md5</find>
+    </findStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -39,13 +81,15 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/OC_define_deal.py" />
         <option value="$PROJECT_DIR$/JunkFile_maker.py" />
+        <option value="$PROJECT_DIR$/OC_define_deal.py" />
+        <option value="$PROJECT_DIR$/OC_JiaFeiDaiMa_deal.py" />
+        <option value="$PROJECT_DIR$/Lua_resource_deal.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="284" />
+    <option name="x" value="119" />
     <option name="y" value="23" />
     <option name="width" value="1194" />
     <option name="height" value="1065" />
@@ -128,7 +172,8 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="284" y="23" width="1194" height="1065" extended-state="0" />
+    <frame x="119" y="23" width="1194" height="1065" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.19778346" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -150,33 +195,33 @@
     </layout>
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/.gitattributes" />
+    <entry file="file://$PROJECT_DIR$/.gitignore" />
     <entry file="file://$PROJECT_DIR$/OC_JiaFeiDaiMa_deal.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2295">
-          <caret line="141" column="16" selection-start-line="141" selection-start-column="16" selection-end-line="141" selection-end-column="16" />
+        <state relative-caret-position="-1726">
+          <caret line="129" selection-start-line="129" selection-end-line="129" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Lua_resource_deal.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3808">
-          <caret line="231" column="18" selection-start-line="231" selection-start-column="18" selection-end-line="231" selection-end-column="18" />
+        <state relative-caret-position="379">
+          <caret line="228" column="12" selection-start-line="228" selection-start-column="12" selection-end-line="228" selection-end-column="12" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/.gitattributes" />
-    <entry file="file://$PROJECT_DIR$/.gitignore" />
     <entry file="file://$PROJECT_DIR$/JunkFile_maker.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="869">
-          <caret line="143" selection-start-line="143" selection-end-line="143" />
+        <state relative-caret-position="449">
+          <caret line="77" column="19" selection-start-line="77" selection-start-column="19" selection-end-line="77" selection-end-column="19" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/OC_define_deal.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="167">
-          <caret line="56" column="108" selection-start-line="56" selection-start-column="77" selection-end-line="56" selection-end-column="108" />
+        <state relative-caret-position="306">
+          <caret line="25" column="9" lean-forward="true" selection-start-line="25" selection-start-column="9" selection-end-line="25" selection-end-column="9" />
         </state>
       </provider>
     </entry>
