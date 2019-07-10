@@ -16,6 +16,7 @@ import random
 import shutil
 import string
 import sys
+import datetime
 
 # 设置默认编码格式
 default_encoding = 'utf-8'
@@ -66,16 +67,30 @@ def get_type():
     return type_name
 
 
-# 创建垃圾文件内容
+# -------------------------- 创建垃圾文件内容 -------------------------------
 def get_junk_data(f_type=''):
     if f_type == '.png':
         text = str(random.randint(1, 1024)) * random.randint(1024, 10240)
         png_text = text + '0000000049454e44ae426082'.decode('hex')
         return png_text
+    elif f_type == '.json':
+        return get_json_text()
     else:
         text = ''.join(random.sample(string.ascii_letters + string.digits, 62))
         text = text * random.randint(256, 512)
         return text
+
+
+def get_json_text():
+    json_text = '['
+    for i in range(random.randint(100, 500)):
+        text = '{\"id\": %d, \"%s\": \"%s\", \"%s\": \"%s\", \"%s\": \"%s\", \"jsontime\": \"%s\"},\n'\
+               % (random.randint(1000, 10000), get_one_name(), get_one_name(), get_one_name(), get_one_name(),
+                  get_one_name(), get_one_name(), datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
+        json_text = json_text + text
+    # 去掉最后一个逗号
+    json_text = json_text[:-2] + ']'
+    return json_text
 
 
 # 创建单个垃圾文件
@@ -88,7 +103,6 @@ def get_one_file(file_path, f_type=''):
 def add_file_to_folder(folder_path):
     global fileNames
     fileNames.clear()
-
     # 开始添加文件
     for i in range(random.randint(fileNumMin, fileNumMax)):
         # 获取一个不重复的名字
@@ -111,7 +125,7 @@ def add_folders_level(parent_path, level=0):
             while folder_name in folderNames:
                 folder_name = get_one_name()
             folderNames.add(folder_name)
-            # print '创建路径：' + os.path.join(parent_path, folderName)
+            # print '创建路径：' + os.path.join(parent_path, folder_name)
             os.mkdir(os.path.join(parent_path, folder_name))
             # 回溯 创建分级目录
             add_folders_level(os.path.join(parent_path, folder_name), level - random.randint(1, 4))
@@ -137,3 +151,5 @@ if __name__ == '__main__':
                 add_file_to_folder(os.path.join(parent, folder))
 
     print '------ success!------'
+
+    # get_json_text()
