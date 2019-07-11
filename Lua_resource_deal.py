@@ -27,6 +27,8 @@ import shutil
 import time
 import sys
 
+import JunkFile_maker  # 使用垃圾生成模块
+
 # 编码格式，默认值：ascii，设置默认值为：utf-8
 default_encoding = 'utf-8'
 if sys.getdefaultencoding() != default_encoding:
@@ -40,23 +42,12 @@ resource_path = ''
 # 目标路径
 target_path = os.path.join(script_path, 'Lua_resource')
 
-# os.path.sep 系统的路径分隔符 /
-# 匹配规则，路径包含path_include，路径不包含path_exclude
-match_rule = {
-    '.png': {
-        'path_include': os.path.sep + 'res',
-    },
-    '.lua': {
-        'path_exclude': os.path.sep + 'res',
-    }
-}
-
 # 确保函数名的唯一
 func_names_set = set()
 
 # 获取单词列表，用以随机名称
-with open(os.path.join(script_path, './word_list.json'), 'r') as fileObj:
-    word_name_list = json.load(fileObj)
+with open(os.path.join(script_path, './word_list.json'), 'r') as file_Obj:
+    word_name_list = json.load(file_Obj)
 
 
 # 获取一个随机名称
@@ -100,42 +91,36 @@ def add_single_file(file_path):
 
     print 'add file：' + file_path.replace(target_path, '')
     # os.path.splitext(path) 分割路径，返回路径名和文件扩展名的元组
-    (_, file_type) = os.path.splitext(file_path)
+    (path_name, file_type) = os.path.splitext(file_path)
     if file_type == '.lua':
         with open(file_path, 'w') as file_Obj:
             func_num = random.randint(10, 15)
             for j in range(0, func_num):
-                func_text = get_lua_func_text()
-                file_Obj.write(func_text)
-    elif file_type == '.png':
-        with open(file_path, 'wb') as file_Obj:
-            file_Obj.write(get_png_text())
+                file_Obj.write(get_lua_func_text())
     else:
-        pass
+        # if file_type == '.png':
+        #     with open(file_path, 'wb') as file_Obj:
+        #         file_Obj.write(get_png_text())
+        with open(file_path, 'w') as file_Obj:
+            file_Obj.write(JunkFile_maker.get_junk_data(file_type))
 
 
 def add_file_to(parent_folder, level, min_file_num=0):
-    global match_rule, target_path
+    global target_path
     
     create_folder_list = []
     for parent, folders, files in os.walk(parent_folder):
         target_file_type = ''
-        # 相对路径
+        # 获取相对路径
         relative_path = parent.replace(target_path, '')
 
-        # items() 函数以列表返回可遍历的(键, 值) 元组数组。
-        for file_type, match_config in match_rule.items():
-            # has_key() 判断键是否存在于字典中
-            # 在路径包含/res的目录创建png,其它地方创建lua, find()：找到返回开始索引值，找不到返回-1
-            if 'path_include' in match_config and relative_path.find(match_config['path_include']) != -1:
-                target_file_type = file_type
-            elif 'path_exclude' in match_config and relative_path.find(match_config['path_exclude']) == -1:
-                target_file_type = file_type
-            else:
-                pass
-
-        if target_file_type == '':
-            continue
+        # 判断是否为res路径，find()：查找字符串，找到返回开始的索引值，找不到返回-1
+        # os.path.sep 系统的路径分隔符 /
+        if relative_path.find(os.path.sep + 'res') != -1:
+            # target_file_type = '.png'  # .png
+            target_file_type = JunkFile_maker.get_type()
+        elif relative_path.find(os.path.sep + 'res') == -1:
+            target_file_type = '.lua'  # .lua
 
         # 创建文件数量
         new_file_num = random.randint(len(files) / 2, len(files)) + min_file_num
@@ -220,6 +205,7 @@ def main():
         # 删除旧目录
         if os.path.exists(target_path):
             shutil.rmtree(target_path)
+        # 复制到新目录
         shutil.copytree(resource_path, target_path)
 
     # 添加垃圾文件

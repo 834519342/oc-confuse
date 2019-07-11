@@ -67,7 +67,7 @@ def get_type():
     return type_name
 
 
-# -------------------------- 创建垃圾文件内容 -------------------------------
+# -------------------------- 生成垃圾文件内容 -------------------------------
 def get_junk_data(f_type=''):
     if f_type == '.png':
         text = str(random.randint(1, 1024)) * random.randint(1024, 10240)
