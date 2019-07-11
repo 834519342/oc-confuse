@@ -17,6 +17,8 @@ import shutil
 import string
 import sys
 import datetime
+import numpy  # 绘制图形
+from scipy import misc  # 保存图片文件
 
 # 设置默认编码格式
 default_encoding = 'utf-8'
@@ -25,7 +27,7 @@ if sys.getdefaultencoding() != default_encoding:
     sys.setdefaultencoding(default_encoding)
 
 # 文件类型
-fileTypes = ('.png', '.jpg', '.txt', '.json', '.plist')
+fileTypes = ('.png', '.jpg', '.json', '.plist')
 
 # 文件数范围
 fileNumMin = 10
@@ -69,14 +71,14 @@ def get_type():
 
 # -------------------------- 生成垃圾文件内容 -------------------------------
 def get_junk_data(f_type=''):
-    if f_type == '.png':
-        text = str(random.randint(1, 1024)) * random.randint(1024, 10240)
-        png_text = text + '0000000049454e44ae426082'.decode('hex')
-        return png_text
-    elif f_type == '.json':
+    if f_type == '.json':
         return get_json_text()
     elif f_type == '.plist':
         return get_plist_text()
+    elif f_type == '.png':
+        text = str(random.randint(1, 1024)) * random.randint(1024, 10240)
+        png_text = text + '0000000049454e44ae426082'.decode('hex')
+        return png_text
     else:
         text = ''.join(random.sample(string.ascii_letters + string.digits, 62))
         text = text * random.randint(256, 512)
@@ -125,13 +127,29 @@ def get_plist_text():
     plist_text = plist_text + '</dict>\n</plist>'
     return plist_text
 
+
+def get_image_text(file_path=''):
+    if file_path:
+        w = random.randint(500, 3000)
+        h = random.randint(500, 3000)
+        # 绘制图形
+        img = numpy.zeros([h, w, 3], numpy.uint8)
+        img[:, :, 0] = numpy.zeros([h, w]) + random.randint(0, 255)
+        img[:, :, 1] = numpy.ones([h, w]) + random.randint(0, 255)
+        img[:, :, 2] = numpy.ones([h, w]) + random.randint(0, 255)
+        # 保存为文件
+        misc.imsave(file_path, img)
+
 # -------------------------------------------------------------------------
 
 
 # 创建单个垃圾文件
 def get_one_file(file_path, f_type=''):
-    with open(file_path, 'w') as file_Obj:
-        file_Obj.write(get_junk_data(f_type))
+    if f_type == '.png' or f_type == '.jpg':
+        get_image_text(file_path)
+    else:
+        with open(file_path, 'w') as file_Obj:
+            file_Obj.write(get_junk_data(f_type))
 
 
 # 添加单个文件夹的垃圾文件

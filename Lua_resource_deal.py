@@ -98,11 +98,11 @@ def add_single_file(file_path):
             for j in range(0, func_num):
                 file_Obj.write(get_lua_func_text())
     else:
-        # if file_type == '.png':
-        #     with open(file_path, 'wb') as file_Obj:
-        #         file_Obj.write(get_png_text())
-        with open(file_path, 'w') as file_Obj:
-            file_Obj.write(JunkFile_maker.get_junk_data(file_type))
+        if file_type == '.png' or file_type == '.jpg':
+            JunkFile_maker.get_image_text(file_path)
+        else:
+            with open(file_path, 'w') as file_Obj:
+                file_Obj.write(JunkFile_maker.get_junk_data(file_type))
 
 
 def add_file_to(parent_folder, level, min_file_num=0):
