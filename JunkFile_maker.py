@@ -25,7 +25,7 @@ if sys.getdefaultencoding() != default_encoding:
     sys.setdefaultencoding(default_encoding)
 
 # 文件类型
-fileTypes = ('.png', '.jpg', '.txt', '.json')
+fileTypes = ('.png', '.jpg', '.txt', '.json', '.plist')
 
 # 文件数范围
 fileNumMin = 10
@@ -75,6 +75,8 @@ def get_junk_data(f_type=''):
         return png_text
     elif f_type == '.json':
         return get_json_text()
+    elif f_type == '.plist':
+        return get_plist_text()
     else:
         text = ''.join(random.sample(string.ascii_letters + string.digits, 62))
         text = text * random.randint(256, 512)
@@ -91,6 +93,39 @@ def get_json_text():
     # 去掉最后一个逗号
     json_text = json_text[:-2] + ']'
     return json_text
+
+
+def get_plist_text():
+    # plist文件标准头部
+    plist_text = '''<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+'''
+    # 添加随机内容
+    # 字符串
+    for i in range(random.randint(5, 10)):
+        plist_text = plist_text + '<key>%s</key>\n<string>%s</string>\n' % (get_one_name(), get_one_name())
+
+    # 数组
+    for i in range(0, random.randint(2, 5)):
+        plist_text = plist_text + '<key>%s</key>\n<array>\n' % get_one_name()
+        for j in range(2, random.randint(3, 5)):
+            plist_text = plist_text + '<string>%s</string>\n' % get_one_name()
+        plist_text = plist_text + '</array>\n'
+
+    # 字典
+    for i in range(0, random.randint(1, 4)):
+        plist_text = plist_text + '<key>%s</key>\n<dict>\n' % get_one_name()
+        for j in range(1, random.randint(2, 5)):
+            plist_text = plist_text + '<key>%s</key>\n<string>%s</string>\n' % (get_one_name(), get_one_name())
+        plist_text = plist_text + '</dict>\n'
+
+    # plist文件结尾
+    plist_text = plist_text + '</dict>\n</plist>'
+    return plist_text
+
+# -------------------------------------------------------------------------
 
 
 # 创建单个垃圾文件
