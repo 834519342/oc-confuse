@@ -38,7 +38,7 @@ if sys.getdefaultencoding() != default_encoding:
 # 脚本所在路径
 script_path = os.path.split(os.path.realpath(sys.argv[0]))[0]
 # 资源路径
-resource_path = ''
+resource_path = ''  # python Lua_resource_deal.py -path /Users/xiaoqiangqiang/Desktop/confuse_path/1
 # 目标路径
 target_path = os.path.join(script_path, 'Lua_resource')
 
