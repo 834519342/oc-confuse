@@ -31,7 +31,8 @@ system_file = ('main', 'AppDelegate')
 # 类名白名单
 system_class = ()
 # 属性名白名单
-system_variable = ('window', 'price', 'string', 'self', 'path', 'type', 'size', 'height', 'width', 'content')
+system_variable = ('window', 'price', 'string', 'self', 'path', 'type', 'size', 'height', 'width', 'content',
+                     'length', 'error', 'interface', 'data', 'name', 'gravity')
 # 方法名白名单
 system_func = ('main', 'application', 'applicationWillResignActive', 'applicationDidEnterBackground',
                'applicationWillEnterForeground', 'applicationDidBecomeActive', 'applicationWillTerminate', 'view',
@@ -39,9 +40,9 @@ system_func = ('main', 'application', 'applicationWillResignActive', 'applicatio
                'viewWillLayoutSubviews', 'dealloc', 'valueForKey', 'setValue', 'requestDidFinish',
                'safariViewController', 'safariViewControllerDidFinish', 'tableView', 'numberOfSectionsInTableView',
                'paymentQueue', 'productsRequest', 'request', 'initWithNibName', 'mailComposeController', 'initWithFrame'
-               , 'content')
+               , 'content', 'allocWithZone', 'copyWithZone')
 
-# ------------------------ 官包SDK -------------------------/Users/xiaoqiangqiang/Desktop/confuse_path/XTGameSDK
+# ------------------------- 官包 --------------------------/Users/xiaoqiangqiang/Desktop/confuse_path/XTGameSDK
 # 文件夹白名单
 # path_ignore = ('Masonry', )
 # # 文件白名单
@@ -70,20 +71,36 @@ system_func = ('main', 'application', 'applicationWillResignActive', 'applicatio
 # func_ignore = ('initWithResult', 'initWithDict', 'initWithDictionary', 'title', 'valueForUndefinedKey', 'GetView',
 #                'viewController', 'url', 'GetViewController')
 
-# --------------------- 官包SDK + V8SDK -----------------
+# --------------------- 官包 + V8SDK ----------------------
 # python OC_define_deal.py -path /Users/xiaoqiangqiang/Desktop/confuse_path
+# # 文件夹白名单
+# path_ignore = ('Masonry', )
+# # 文件白名单
+# file_ignore = ('MBProgressHUD', )
+# # 类名白名单
+# class_ignore = ()
+# # 属性名白名单
+# variable_ignore = ('name', 'error', 'title', 'viewController', 'url', 'resultCount', 'type', 'param', 'replacement')
+# # 方法名白名单
+# func_ignore = ('initWithResult', 'initWithDict', 'initWithDictionary', 'title', 'valueForUndefinedKey', 'GetView',
+#                'viewController', 'url', 'GetViewController', 'initWithX', 'completedTransactionsFinished',
+#                'currentSDKVersion')
+
+# ---------------------- 反欺诈 ----------------------------
 # 文件夹白名单
-path_ignore = ('Masonry', )
+path_ignore = ('AES')
 # 文件白名单
-file_ignore = ('MBProgressHUD', )
+file_ignore = ('ThSeekCollectInfo', 'ThAntiFraud', 'ThAntiFraudManager', 'ThReadAndWrite', 'YAReachability')
 # 类名白名单
-class_ignore = ()
+class_ignore = ('ThOs')
 # 属性名白名单
-variable_ignore = ('name', 'error', 'title', 'viewController', 'url', 'resultCount', 'type', 'param', 'replacement')
+variable_ignore = ('section')
 # 方法名白名单
-func_ignore = ('initWithResult', 'initWithDict', 'initWithDictionary', 'title', 'valueForUndefinedKey', 'GetView',
-               'viewController', 'url', 'GetViewController', 'initWithX', 'completedTransactionsFinished',
-               'currentSDKVersion')
+func_ignore = ('collect', 'initShowCenterWithMessage', 'isJail', 'isJailByAptExist', 'isJailByCydiaAppExist',
+                 'sharedInstance')
+
+
+
 
 
 # 设置默认编码格式
@@ -106,14 +123,17 @@ names = set()
 defineNames = set()
 
 
-# 正则表达式
+# --------------------- 正则表达式 --------------------------
+# 匹配类名
 classPattern = re.compile('@interface\s+(\w+)\s+:\s+\w+')
-
-funcPattern = re.compile('\s*-\s*\(.+?\)\s*(\w+)')
+# 匹配方法名
+funcPattern = re.compile('\s*[-|+]\s*\(.+?\)\s*(\w+)')
+# 匹配方法的参数名
 funcPattern1 = re.compile('\s*(\w+):\(.+?\)\s*\w+')
-
+# 属性名
 variablePattern = re.compile('@property\s*\(.*?\)\s*\w+\s*\*?\s*(\w+?);')
 variablePattern1 = re.compile('\s*\w+\s*\*\s*(\w+);')
+
 
 # 获取单词库
 with open(os.path.join(script_path, 'word_list.json'), 'r') as fileObj:
