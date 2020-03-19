@@ -32,7 +32,7 @@ system_file = ('main', 'AppDelegate')
 system_class = ()
 # 属性名白名单
 system_variable = ('window', 'price', 'string', 'self', 'path', 'type', 'size', 'height', 'width', 'content',
-                     'length', 'error', 'interface', 'data', 'name', 'gravity')
+                     'length', 'error', 'interface', 'data', 'name', 'gravity', 'scale')
 # 方法名白名单
 system_func = ('main', 'application', 'applicationWillResignActive', 'applicationDidEnterBackground',
                'applicationWillEnterForeground', 'applicationDidBecomeActive', 'applicationWillTerminate', 'view',
@@ -40,7 +40,8 @@ system_func = ('main', 'application', 'applicationWillResignActive', 'applicatio
                'viewWillLayoutSubviews', 'dealloc', 'valueForKey', 'setValue', 'requestDidFinish',
                'safariViewController', 'safariViewControllerDidFinish', 'tableView', 'numberOfSectionsInTableView',
                'paymentQueue', 'productsRequest', 'request', 'initWithNibName', 'mailComposeController', 'initWithFrame'
-               , 'content', 'allocWithZone', 'copyWithZone')
+               , 'content', 'allocWithZone', 'copyWithZone', 'processInfo', 'systemVersion', 'length', 'setObject', 'forKey',
+                'removeObjectForKey', 'data', 'objectForKey', 'error', 'completionHandler', 'size', 'unarchiveObjectWithData')
 
 # ------------------------- 官包 --------------------------/Users/xiaoqiangqiang/Desktop/confuse_path/XTGameSDK
 # 文件夹白名单
@@ -90,14 +91,14 @@ system_func = ('main', 'application', 'applicationWillResignActive', 'applicatio
 # 文件夹白名单
 path_ignore = ('AES')
 # 文件白名单
-file_ignore = ('ThSeekCollectInfo', 'ThAntiFraud', 'ThAntiFraudManager', 'ThReadAndWrite', 'YAReachability')
+file_ignore = ('ThCollectInfo', 'ThAntiFraudManager', 'ThReadAndWrite', 'YAReachability')
 # 类名白名单
-class_ignore = ('ThOs')
+class_ignore = ('ThOs', 'ThOption', 'ThAntiFraud')
 # 属性名白名单
-variable_ignore = ('section')
+variable_ignore = ('section', 'snuser', 'applicationId', 'enabled', 'publicKey', 'collectURL', 'callback', 'idCallback', 'logEnable')
 # 方法名白名单
-func_ignore = ('collect', 'initShowCenterWithMessage', 'isJail', 'isJailByAptExist', 'isJailByCydiaAppExist',
-                 'sharedInstance')
+func_ignore = ('initShowCenterWithMessage', 'isJail', 'isJailByAptExist', 'isJailByCydiaAppExist',
+                 'sharedInstance', 'YACreate', 'YAGetToken', 'registerServerIdCallback', 'publicKey')
 
 
 
@@ -128,8 +129,8 @@ defineNames = set()
 classPattern = re.compile('@interface\s+(\w+)\s+:\s+\w+')
 # 匹配方法名
 funcPattern = re.compile('\s*[-|+]\s*\(.+?\)\s*(\w+)')
-# 匹配方法的参数名
-funcPattern1 = re.compile('\s*(\w+):\(.+?\)\s*\w+')
+# 匹配方法参数名
+funcPattern1 = re.compile('\s+(\w+)\s*:\s*\(.+?\)\s*\w+')
 # 属性名
 variablePattern = re.compile('@property\s*\(.*?\)\s*\w+\s*\*?\s*(\w+?);')
 variablePattern1 = re.compile('\s*\w+\s*\*\s*(\w+);')
@@ -316,20 +317,20 @@ def scan_folder_func(parent_path):
 
             if ftype == '.h' or ftype == '.m' or ftype == '.mm':
                 with open(os.path.join(parent, fileName), 'r') as fileObj:
-                    # 方法名表达式匹配
+                    # 方法名匹配
                     func_name_list = funcPattern.findall(fileObj.read())
                     for funcName in func_name_list:
                         if not is_func_ignore(funcName):
                             print '方法名：' + funcName
                             funcNames.add(funcName)
 
-                # with open(os.path.join(parent, fileName), 'r') as fileObj:
-                #     # 方法名表达式匹配
-                #     funcNameList = funcPattern1.findall(fileObj.read())
-                #     for funcName in funcNameList:
-                #         if not funcName in funcNames and not funcName in func_ignore:
-                #             print '方法名：' + funcName
-                #             funcNames.add(funcName)
+                with open(os.path.join(parent, fileName), 'r') as fileObj:
+                    # 方法参数匹配
+                    func_name_list = funcPattern1.findall(fileObj.read())
+                    for funcName in func_name_list:
+                        if not is_func_ignore(funcName):
+                            print '方法参数：' + funcName
+                            funcNames.add(funcName)
 
 
 # ------------------------ 执行 --------------------------------
