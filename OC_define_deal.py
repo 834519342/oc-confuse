@@ -32,7 +32,7 @@ system_file = ('main', 'AppDelegate')
 system_class = ()
 # 属性名白名单
 system_variable = ('window', 'price', 'string', 'self', 'path', 'type', 'size', 'height', 'width', 'content',
-                     'length', 'error', 'interface', 'data', 'name', 'gravity', 'scale')
+                     'length', 'error', 'interface', 'data', 'name', 'gravity', 'scale', 'start', 'end')
 # 方法名白名单
 system_func = ('main', 'application', 'applicationWillResignActive', 'applicationDidEnterBackground',
                'applicationWillEnterForeground', 'applicationDidBecomeActive', 'applicationWillTerminate', 'view',
@@ -41,7 +41,8 @@ system_func = ('main', 'application', 'applicationWillResignActive', 'applicatio
                'safariViewController', 'safariViewControllerDidFinish', 'tableView', 'numberOfSectionsInTableView',
                'paymentQueue', 'productsRequest', 'request', 'initWithNibName', 'mailComposeController', 'initWithFrame'
                , 'content', 'allocWithZone', 'copyWithZone', 'processInfo', 'systemVersion', 'length', 'setObject', 'forKey',
-                'removeObjectForKey', 'data', 'objectForKey', 'error', 'completionHandler', 'size', 'unarchiveObjectWithData')
+                'removeObjectForKey', 'data', 'objectForKey', 'error', 'completionHandler', 'size', 'unarchiveObjectWithData',
+                'width')
 
 # ------------------------- 官包 --------------------------/Users/xiaoqiangqiang/Desktop/confuse_path/XTGameSDK
 # 文件夹白名单
@@ -91,14 +92,14 @@ system_func = ('main', 'application', 'applicationWillResignActive', 'applicatio
 # 文件夹白名单
 path_ignore = ('AES')
 # 文件白名单
-file_ignore = ('ThCollectInfo', 'ThAntiFraudManager', 'ThReadAndWrite', 'YAReachability')
+file_ignore = ('ThCollectInfo', 'ThAntiFraudManager', 'YAReachability')
 # 类名白名单
-class_ignore = ('ThOs', 'ThOption', 'ThAntiFraud')
+class_ignore = ('ThOs', 'ThOption', 'ThAntiFraud', 'ThReadAndWrite')
 # 属性名白名单
 variable_ignore = ('section', 'snuser', 'applicationId', 'enabled', 'publicKey', 'collectURL', 'callback', 'idCallback', 'logEnable')
 # 方法名白名单
 func_ignore = ('initShowCenterWithMessage', 'isJail', 'isJailByAptExist', 'isJailByCydiaAppExist',
-                 'sharedInstance', 'YACreate', 'YAGetToken', 'registerServerIdCallback', 'publicKey')
+                 'sharedInstance', 'YACreate', 'YAGetToken', 'registerServerIdCallback', 'publicKey', 'writeData', 'readDataWithBlock')
 
 
 
