@@ -32,7 +32,7 @@ system_file = ('main', 'AppDelegate')
 system_class = ()
 # 属性名白名单
 system_variable = ('window', 'price', 'string', 'self', 'path', 'type', 'size', 'height', 'width', 'content',
-                     'length', 'error', 'interface', 'data', 'name', 'gravity', 'scale', 'start', 'end')
+                     'length', 'error', 'interface', 'data', 'name', 'gravity', 'scale', 'start', 'end', 'manager')
 # 方法名白名单
 system_func = ('main', 'application', 'applicationWillResignActive', 'applicationDidEnterBackground',
                'applicationWillEnterForeground', 'applicationDidBecomeActive', 'applicationWillTerminate', 'view',
@@ -42,7 +42,7 @@ system_func = ('main', 'application', 'applicationWillResignActive', 'applicatio
                'paymentQueue', 'productsRequest', 'request', 'initWithNibName', 'mailComposeController', 'initWithFrame'
                , 'content', 'allocWithZone', 'copyWithZone', 'processInfo', 'systemVersion', 'length', 'setObject', 'forKey',
                 'removeObjectForKey', 'data', 'objectForKey', 'error', 'completionHandler', 'size', 'unarchiveObjectWithData',
-                'width')
+                'width', 'locationManager', 'didChangeAuthorizationStatus', 'didUpdateLocations', 'didFailWithError')
 
 # ------------------------- 官包 --------------------------/Users/xiaoqiangqiang/Desktop/confuse_path/XTGameSDK
 # 文件夹白名单
